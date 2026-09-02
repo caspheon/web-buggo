@@ -1,9 +1,10 @@
 # Buggo — deck de apresentação
 
 Versão web do `buggo_pitch.pptx` (17 slides — os 16 do arquivo original mais o
-slide 3, que apresenta o Felipe), feita para apresentar sem depender do
-PowerPoint. No slide 12 o celular mostra a gravação do app rodando, que
-começa sozinha e sem som ao chegar no slide.
+slide 2, que apresenta o Felipe), feita para apresentar sem depender do
+PowerPoint. A capa não abre o deck: ela entra no slide 11, como virada, depois
+que a história do Felipe termina em "por que não?". No slide 13 o celular mostra
+a gravação do app rodando, que começa sozinha e sem som ao chegar no slide.
 
 Cada slide monta o conteúdo em ordem quando entra em cena: a frase sobe e o
 grito (`FECHAR!`, `DESISTI!`) entra depois, com pausa; os números do mercado
@@ -17,7 +18,8 @@ tecla `A` ignora essa preferência e liga o movimento de volta.
 2. Pressione **F** para tela cheia.
 3. A tela fica **preta** — é o slide de abertura. Deixe assim enquanto
    apresenta o projetor e se posiciona.
-4. Avance com **→** / **espaço** ou clicando na tela: a capa entra animada.
+4. Avance com **→** / **espaço** ou clicando na tela: a história do Felipe
+   entra animada. A capa do Buggo só aparece no slide 11.
 
 Roda offline, vídeo incluso. A única coisa que precisa de internet são as fontes
 (Poppins e Roboto — sem elas o navegador usa uma fonte parecida).
