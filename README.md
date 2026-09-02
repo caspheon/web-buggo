@@ -8,7 +8,8 @@ começa sozinha e sem som ao chegar no slide.
 Cada slide monta o conteúdo em ordem quando entra em cena: a frase sobe e o
 grito (`FECHAR!`, `DESISTI!`) entra depois, com pausa; os números do mercado
 sobem contando e as barras do gráfico crescem; a linha que liga o celular ao texto se
-desenha. Quem tiver "reduzir movimento" ligado no sistema vê tudo estático.
+desenha. Quem tiver "reduzir movimento" ligado no sistema vê tudo estático — a
+tecla `A` ignora essa preferência e liga o movimento de volta.
 
 ## Como apresentar
 
@@ -32,12 +33,25 @@ Roda offline, vídeo incluso. A única coisa que precisa de internet são as fon
 | `G` | ver todos os slides |
 | `B` | apagar a tela (fica preta) |
 | `M` | liga/desliga o som do vídeo |
+| `A` | liga/desliga as animações |
 | `T` | cronômetro (`R` zera) |
 | `?` | lista de atalhos |
 | `Esc` | fecha o que estiver aberto |
 
 A URL guarda o slide atual (`index.html#7`), então recarregar a página não perde
 o lugar.
+
+## Se as animações não rodarem
+
+Computador antigo — o do laboratório da faculdade, por exemplo — costuma vir
+com as animações do sistema desligadas por desempenho ("Ajustar para melhor
+desempenho" no Windows, "Reduzir movimento" no macOS). O navegador repassa isso
+para a página e o deck entra estático de propósito.
+
+Aperte **A** (ou clique no raio na barra de baixo) para ligar o movimento assim
+mesmo. A escolha fica guardada naquele computador, então basta uma vez. E se a
+máquina simplesmente não der conta das animações, o deck percebe sozinho depois
+de alguns segundos e volta ao conteúdo fixo, sem deixar slide vazio.
 
 ## Plano B
 
