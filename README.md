@@ -1,12 +1,12 @@
 # Buggo — deck de apresentação
 
-Versão web do `buggo_pitch.pptx` (16 slides), feita para apresentar sem depender
+Versão web do `buggo_pitch.pptx` (15 slides), feita para apresentar sem depender
 do PowerPoint. No slide 11 o celular mostra a gravação do app rodando, que
 começa sozinha e sem som ao chegar no slide.
 
 Cada slide monta o conteúdo em ordem quando entra em cena: a frase sobe e o
 grito (`FECHAR!`, `DESISTI!`) entra depois, com pausa; os números do mercado
-sobem contando e as barras crescem; a linha que liga o celular ao texto se
+sobem contando e as barras do gráfico crescem; a linha que liga o celular ao texto se
 desenha. Quem tiver "reduzir movimento" ligado no sistema vê tudo estático.
 
 ## Como apresentar
