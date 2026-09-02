@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Buggo Pitch</title>
 <meta name="description" content="Pitch deck do Buggo — aprenda a programar brincando.">
+<meta name="format-detection" content="telephone=no">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,600;0,700;0,900;1,700;1,900&family=Roboto:ital,wght@0,400;0,700;0,900;1,700&display=swap">
@@ -329,6 +330,7 @@ body{
 .obrigado a.email{font-family:var(--texto);font-size:34px;color:var(--lavanda);text-decoration:none}
 .obrigado a.email:hover{text-decoration:underline}
 .obrigado .linha{font-family:var(--texto);font-size:34px;color:var(--branco)}
+.obrigado .linha a{color:inherit;text-decoration:none}  /* o Safari transforma o telefone em link tel: e o pinta de azul */
 .redes{display:flex;gap:22px}
 .redes a{display:block;width:66px;height:66px;color:var(--roxo);transition:color .2s ease,transform .2s ease}
 .redes a:hover,.redes a:focus-visible{color:var(--lavanda);transform:translateY(-3px)}
@@ -464,14 +466,14 @@ kbd{
     <!-- 4 · problema -->
     <section class="slide bg-problema" data-titulo="Curso em inglês">
       <div class="problema">
-        <p data-anim="sobe" style="--d:.05s">Tentei um curso online mas era em inglês então <span class="acento" data-anim="soco" style="--d:.80s">FECHEI!</span></p>
+        <p data-anim="sobe" style="--d:.05s">Tentei um curso online mas era em inglês então <span class="acento" data-anim="soco" style="--d:.80s">DESISTI!</span></p>
       </div>
     </section>
 
     <!-- 5 · problema -->
     <section class="slide bg-problema" data-titulo="Livro">
       <div class="problema">
-        <p data-anim="sobe" style="--d:.05s">Abri um livro logo na página 3 e eu <span class="acento" data-anim="soco" style="--d:.80s">DESISTI!</span></p>
+        <p data-anim="sobe" style="--d:.05s">Abri um livro logo na página 3 e eu <span class="acento" data-anim="soco" style="--d:.80s">FECHEI!</span></p>
       </div>
     </section>
 
@@ -600,16 +602,16 @@ kbd{
         </div>
 
         <div class="rodape">
-          <p class="benchmark" data-anim="surge" style="--d:1.20s">O modelo gamificado já escala aqui: o Duolingo soma <b>70 milhões de downloads no Brasil</b>, seu segundo maior mercado depois dos EUA.</p>
+          <p class="benchmark" data-anim="surge" style="--d:1.20s"><b>70 milhões de downloads no Brasil</b>, seu segundo maior mercado depois dos EUA.</p>
           <p class="fontes" data-anim="surge" style="--d:1.32s">Fontes: Brasscom, Demanda de Talentos em TIC (2021–2025) · Semesp, Mapa do Ensino Superior 2026 · IBGE, 2025 · IstoÉ Dinheiro</p>
         </div>
       </div>
     </section>
 
     <!-- 14 · o plano -->
-    <section class="slide bg-preco" data-titulo="R$ 19,90">
+    <section class="slide bg-preco" data-titulo="R$ 14,90">
       <div class="plano">
-        <h2 data-anim="foco" style="--d:.05s">R$ 19,90<small>/mês</small></h2>
+        <h2 data-anim="foco" style="--d:.05s">R$ 14,90<small>/mês</small></h2>
         <ul>
           <li data-anim="sobe" style="--d:.32s">Trilhas completas</li>
           <li data-anim="sobe" style="--d:.38s">Sem anúncios</li>
