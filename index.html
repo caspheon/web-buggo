@@ -390,7 +390,7 @@ body{
   color:var(--cinza-forte);letter-spacing:.08em;
 }
 body.oculto #controles{opacity:0;transform:translateX(-50%) translateY(10px);pointer-events:none}
-body.oculto{cursor:none}
+body.sem-cursor{cursor:none}
 
 #cronometro{
   position:fixed;top:18px;right:20px;z-index:50;padding:8px 16px;border-radius:999px;
@@ -931,17 +931,39 @@ kbd{
   document.getElementById('btn-tela').addEventListener('click', telaCheia);
   document.getElementById('btn-ajuda').addEventListener('click', function(){ ajuda.hidden = !ajuda.hidden; });
 
-  /* ---- esconde os controles quando o mouse para ---- */
-  var timer;
-  function acordar(){
+  /* ---- a barra de controles aparece com o mouse, nunca com o teclado ----
+     Quem apresenta passa os slides de seta, e a barra piscando a cada
+     avanço atrapalha. Então o teclado não a chama: ela volta ao clicar
+     ou ao levar o mouse para a faixa de baixo, que é onde ela mora.
+     O cursor é caso à parte — some sozinho sempre que o mouse para. */
+  var ESPERA = 2600;   /* parado por este tempo, some */
+  var FAIXA  = 130;    /* altura da faixa de baixo que chama a barra */
+  var timerBarra, timerCursor;
+
+  function mostrarBarra(){
     document.body.classList.remove('oculto');
-    clearTimeout(timer);
-    timer = setTimeout(function(){ document.body.classList.add('oculto'); }, 2600);
+    clearTimeout(timerBarra);
+    timerBarra = setTimeout(function(){ document.body.classList.add('oculto'); }, ESPERA);
   }
-  ['mousemove','mousedown','keydown','touchstart'].forEach(function(ev){
-    document.addEventListener(ev, acordar, {passive:true});
+  function mostrarCursor(){
+    document.body.classList.remove('sem-cursor');
+    clearTimeout(timerCursor);
+    timerCursor = setTimeout(function(){ document.body.classList.add('sem-cursor'); }, ESPERA);
+  }
+
+  document.addEventListener('mousemove', function(e){
+    mostrarCursor();
+    if (window.innerHeight - e.clientY <= FAIXA) mostrarBarra();
+  }, {passive:true});
+
+  ['mousedown','touchstart'].forEach(function(ev){
+    document.addEventListener(ev, function(){ mostrarCursor(); mostrarBarra(); }, {passive:true});
   });
-  acordar();
+
+  /* ao abrir, a barra dá as caras uma vez e sai — senão ninguém descobre
+     que ela existe */
+  mostrarBarra();
+  mostrarCursor();
 
   /* ---- posição inicial vinda da URL (#7) ---- */
   var inicial = parseInt((location.hash || '').replace('#',''), 10);
