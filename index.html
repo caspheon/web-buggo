@@ -55,7 +55,7 @@ body{
 }
 
 /* ---------- palco 16:9 escalado para qualquer tela ---------- */
-#deck{position:fixed;inset:0;background:var(--ink-1)}
+#deck{position:fixed;top:0;right:0;bottom:0;left:0;background:var(--ink-1)}
 #stage{
   position:absolute;left:50%;top:50%;
   width:var(--stage-w);height:var(--stage-h);
@@ -67,7 +67,7 @@ body{
 
 /* ---------- slides ---------- */
 .slide{
-  position:absolute;inset:0;
+  position:absolute;top:0;right:0;bottom:0;left:0;
   background-color:var(--ink-0);
   background-repeat:no-repeat;
   opacity:0;visibility:hidden;
@@ -130,11 +130,24 @@ body{
 .miniatura-palco .slide.is-active .dica{animation-duration:.01s !important;animation-delay:0s !important}
 .miniatura-palco .citacao img{animation:none !important}
 
+/* ---------- chave do movimento ----------
+   Um computador com "reduzir movimento" ligado no sistema (ou com as
+   animações desativadas nas opções de desempenho do Windows) chega aqui
+   e vê o deck inteiro estático. Por isso as regras moram numa classe:
+   a tecla A ignora o sistema e liga o movimento de volta. Sem JS a
+   media query continua valendo sozinha. */
+html.sem-movimento .slide{transition:none}
+html.sem-movimento [data-anim],
+html.sem-movimento .slide.is-active [data-anim]{opacity:1;animation:none !important}
+html.sem-movimento .slide.is-active .citacao img{animation:none}
+html.sem-movimento .dica{opacity:.32;animation:none !important}
+
 @media (prefers-reduced-motion:reduce){
-  .slide{transition:none}
-  [data-anim],.slide.is-active [data-anim]{opacity:1;animation:none !important}
-  .slide.is-active .citacao img{animation:none}
-  .dica{opacity:.32;animation:none !important}
+  html:not(.com-movimento) .slide{transition:none}
+  html:not(.com-movimento) [data-anim],
+  html:not(.com-movimento) .slide.is-active [data-anim]{opacity:1;animation:none !important}
+  html:not(.com-movimento) .slide.is-active .citacao img{animation:none}
+  html:not(.com-movimento) .dica{opacity:.32;animation:none !important}
 }
 
 /* ---------- atmosferas de fundo (recriadas em CSS) ---------- */
@@ -277,7 +290,7 @@ body{
 .citacao img{display:block;width:100%;height:100%;object-fit:cover}
 /* dissolve a borda dura entre a foto e o preto do slide */
 .citacao figure::after{
-  content:"";position:absolute;inset:0;pointer-events:none;
+  content:"";position:absolute;top:0;right:0;bottom:0;left:0;pointer-events:none;
   background:linear-gradient(90deg, rgba(0,0,0,0) 52%, rgba(0,0,0,.6) 80%, #000 100%);
 }
 .citacao blockquote{
@@ -397,22 +410,36 @@ body{
 body.oculto #controles{opacity:0;transform:translateX(-50%) translateY(10px);pointer-events:none}
 body.sem-cursor{cursor:none}
 
+#btn-anim.desligado{color:var(--cinza);opacity:.6}
+
+/* recado curto: some sozinho */
+#aviso{
+  position:fixed;left:50%;bottom:78px;transform:translateX(-50%);z-index:55;
+  max-width:min(620px,90vw);padding:10px 18px;border-radius:999px;text-align:center;
+  background:rgba(16,13,26,.92);border:1px solid rgba(163,167,255,.28);
+  font-family:var(--texto);font-size:15px;color:var(--cinza-forte);pointer-events:none;
+}
+
 #cronometro{
   position:fixed;top:18px;right:20px;z-index:50;padding:8px 16px;border-radius:999px;
   background:rgba(16,13,26,.82);border:1px solid rgba(163,167,255,.22);
   font-family:var(--texto);font-size:20px;font-variant-numeric:tabular-nums;color:var(--lavanda);
 }
 
-#apagado{position:fixed;inset:0;background:#000;z-index:70}
+#apagado{position:fixed;top:0;right:0;bottom:0;left:0;background:#000;z-index:70}
 
 #grade{
-  position:fixed;inset:0;z-index:60;overflow-y:auto;padding:34px;
+  position:fixed;top:0;right:0;bottom:0;left:0;z-index:60;overflow-y:auto;padding:34px;
   background:rgba(6,5,11,.97);
 }
 .grade-lista{display:grid;grid-template-columns:repeat(auto-fill,minmax(268px,1fr));gap:20px;max-width:1400px;margin:0 auto}
 .miniatura{
   position:relative;background:#000;border:2px solid rgba(163,167,255,.2);border-radius:10px;
-  overflow:hidden;cursor:pointer;padding:0;aspect-ratio:16/9;
+  overflow:hidden;cursor:pointer;padding:0;
+  height:0;padding-bottom:56.25%;      /* plano B onde aspect-ratio não existe */
+}
+@supports (aspect-ratio:16/9){
+  .miniatura{height:auto;padding-bottom:0;aspect-ratio:16/9}
 }
 .miniatura:hover,.miniatura:focus-visible{border-color:var(--lavanda)}
 .miniatura.atual{border-color:var(--roxo);box-shadow:0 0 0 3px rgba(135,51,255,.35)}
@@ -427,7 +454,7 @@ body.sem-cursor{cursor:none}
 }
 
 #ajuda{
-  position:fixed;inset:0;z-index:65;display:grid;place-items:center;background:rgba(6,5,11,.93);
+  position:fixed;top:0;right:0;bottom:0;left:0;z-index:65;display:grid;place-items:center;background:rgba(6,5,11,.93);
 }
 .ajuda-cartao{
   width:min(560px,90vw);padding:34px 38px;border-radius:16px;
@@ -699,11 +726,14 @@ kbd{
 <div id="cronometro" hidden>00:00</div>
 <div id="apagado" hidden></div>
 
+<div id="aviso" hidden></div>
+
 <div id="controles">
   <button id="btn-anterior" type="button" aria-label="Slide anterior"><svg viewBox="0 0 24 24"><path d="M15 5 8 12l7 7"></path></svg></button>
   <span id="contador">01 / 17</span>
   <button id="btn-proximo" type="button" aria-label="Próximo slide"><svg viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"></path></svg></button>
   <button id="btn-grade" type="button" aria-label="Ver todos os slides"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"></rect><rect x="14" y="3" width="7" height="7" rx="1"></rect><rect x="3" y="14" width="7" height="7" rx="1"></rect><rect x="14" y="14" width="7" height="7" rx="1"></rect></svg></button>
+  <button id="btn-anim" type="button" aria-label="Ligar ou desligar as animações"><svg viewBox="0 0 24 24"><path d="M13 2 4 14h7l-1 8 9-12h-7z"></path></svg></button>
   <button id="btn-tela" type="button" aria-label="Tela cheia"><svg viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"></path></svg></button>
   <button id="btn-ajuda" type="button" aria-label="Atalhos do teclado">?</button>
 </div>
@@ -723,6 +753,7 @@ kbd{
       <dt><kbd>G</kbd></dt><dd>Ver todos os slides</dd>
       <dt><kbd>B</kbd></dt><dd>Apagar a tela (fica preta)</dd>
       <dt><kbd>M</kbd></dt><dd>Som do vídeo (começa sem som)</dd>
+      <dt><kbd>A</kbd></dt><dd>Animações (liga/desliga)</dd>
       <dt><kbd>T</kbd></dt><dd>Cronômetro · <kbd>R</kbd> zera</dd>
       <dt><kbd>?</kbd></dt><dd>Esta lista de atalhos</dd>
       <dt><kbd>Esc</kbd></dt><dd>Fecha o que estiver aberto</dd>
@@ -733,6 +764,27 @@ kbd{
 <script>
 (function(){
   "use strict";
+
+  /* ---- remendos para navegador antigo (o do laboratório da faculdade) ----
+     Sem isto o script quebra na primeira linha que usa closest() ou
+     forEach numa NodeList, e aí nada monta: fica tudo apagado. */
+  if (!Element.prototype.matches){
+    Element.prototype.matches = Element.prototype.msMatchesSelector || Element.prototype.webkitMatchesSelector;
+  }
+  if (!Element.prototype.closest){
+    Element.prototype.closest = function(sel){
+      var el = this;
+      while (el && el.nodeType === 1){
+        if (el.matches(sel)) return el;
+        el = el.parentElement || el.parentNode;
+      }
+      return null;
+    };
+  }
+  if (window.NodeList && !NodeList.prototype.forEach){
+    NodeList.prototype.forEach = Array.prototype.forEach;
+  }
+
   var stage    = document.getElementById('stage');
   var slides   = Array.prototype.slice.call(stage.querySelectorAll('.slide'));
   var contador = document.getElementById('contador');
@@ -742,6 +794,8 @@ kbd{
   var ajuda    = document.getElementById('ajuda');
   var apagado  = document.getElementById('apagado');
   var cronometro = document.getElementById('cronometro');
+  var aviso    = document.getElementById('aviso');
+  var raiz     = document.documentElement;
   var atual = 0;
 
   /* ---- escala o palco 16:9 para caber em qualquer projetor ---- */
@@ -770,9 +824,58 @@ kbd{
     sincronizarVideos();
   }
 
+  /* ---- recado curto no rodapé ---- */
+  var timerAviso;
+  function mostrarAviso(texto){
+    aviso.textContent = texto;
+    aviso.hidden = false;
+    clearTimeout(timerAviso);
+    timerAviso = setTimeout(function(){ aviso.hidden = true; }, 4200);
+  }
+
+  /* ---- chave do movimento ----
+     Por padrão o deck obedece o sistema: quem tem "reduzir movimento"
+     ligado vê tudo estático. Só que máquina antiga costuma vir com as
+     animações do Windows desligadas por desempenho, e aí o deck chega
+     sem coreografia nenhuma sem ninguém ter pedido. A tecla A (e o botão
+     do raio na barra) manda no sistema, e a escolha fica guardada. */
+  var mqSemMovimento = window.matchMedia
+    ? window.matchMedia('(prefers-reduced-motion: reduce)')
+    : {matches:false};
+  var escolha = null;                    /* 'ligado' | 'desligado' | null = segue o sistema */
+  try { escolha = localStorage.getItem('buggo-movimento'); } catch(e){}
+
+  function movimentoLigado(){
+    if (escolha === 'ligado')    return true;
+    if (escolha === 'desligado') return false;
+    return !mqSemMovimento.matches;
+  }
+  function aplicarMovimento(){
+    var ligado = movimentoLigado();
+    raiz.classList.remove(ligado ? 'sem-movimento' : 'com-movimento');
+    raiz.classList.add(ligado ? 'com-movimento' : 'sem-movimento');
+    var botao = document.getElementById('btn-anim');
+    if (botao){
+      botao.classList.toggle('desligado', !ligado);
+      botao.setAttribute('aria-pressed', ligado ? 'true' : 'false');
+    }
+  }
+  function alternarMovimento(){
+    escolha = movimentoLigado() ? 'desligado' : 'ligado';
+    try { localStorage.setItem('buggo-movimento', escolha); } catch(e){}
+    aplicarMovimento();
+    geracao++;
+    if (escolha === 'ligado') reiniciarSlide();
+    else fixarNumeros(slides[atual]);
+    mostrarAviso(escolha === 'ligado' ? 'Animações ligadas' : 'Animações desligadas');
+  }
+  /* se o sistema mudar de ideia no meio, acompanha — a não ser que já tenham escolhido */
+  if (mqSemMovimento.addEventListener) mqSemMovimento.addEventListener('change', aplicarMovimento);
+  else if (mqSemMovimento.addListener) mqSemMovimento.addListener(aplicarMovimento);
+  aplicarMovimento();
+
   /* ---- números que sobem contando ao entrar no slide ---- */
   var geracao = 0;
-  var semMovimento = window.matchMedia('(prefers-reduced-motion: reduce)');
 
   /* 47.8 vira "47,8"; sem casas decimais, arredonda */
   function formata(v, casas){
@@ -790,7 +893,7 @@ kbd{
   }
 
   function contar(slide){
-    if (semMovimento.matches) { fixarNumeros(slide); return; }
+    if (!movimentoLigado()) { fixarNumeros(slide); return; }
     var minha = geracao;
     slide.querySelectorAll('[data-conta]').forEach(function(el){
       var alvo   = parseFloat(el.dataset.conta);
@@ -823,6 +926,39 @@ kbd{
     });
   }
 
+  /* ---- repete a entrada do slide que está no ar ---- */
+  function reiniciarSlide(){
+    var slide = slides[atual];
+    slide.classList.remove('is-active');
+    void slide.offsetWidth;              /* força o navegador a recomeçar as animações */
+    slide.classList.add('is-active');
+    contar(slide);
+  }
+
+  /* ---- rede de segurança ----
+     Existe computador que engole as animações sem avisar o navegador
+     (driver velho, aceleração desligada). Como o conteúdo nasce em
+     opacity:0 e só o keyframe o traz de volta, ele ficaria invisível.
+     Então conferimos uma vez: se depois do tempo da coreografia tudo
+     ainda estiver apagado, o deck passa a estático na hora. */
+  var redeFeita = false;
+  function conferirAnimacoes(slide){
+    if (redeFeita || !movimentoLigado() || !window.getComputedStyle) return;
+    var alvos = slide.querySelectorAll('[data-anim]');
+    if (!alvos.length) return;
+    redeFeita = true;
+    var minha = geracao;
+    setTimeout(function(){
+      if (geracao !== minha) return;     /* trocou de slide: não dá para julgar */
+      for (var i = 0; i < alvos.length; i++){
+        if (parseFloat(getComputedStyle(alvos[i]).opacity) >= .05) return;
+      }
+      escolha = 'desligado';             /* só nesta sessão, não guarda */
+      aplicarMovimento();
+      mostrarAviso('Este computador não rodou as animações — conteúdo fixo. Tecla A tenta de novo.');
+    }, 3000);
+  }
+
   /* ---- navegação ---- */
   function ir(n, comHash){
     n = Math.max(0, Math.min(slides.length - 1, n));
@@ -832,6 +968,7 @@ kbd{
     atual = n;
     slides[atual].classList.add('is-active');
     contar(slides[atual]);
+    conferirAnimacoes(slides[atual]);
     contador.textContent = doisDigitos(atual + 1) + ' / ' + doisDigitos(slides.length);
     progresso.style.width = ((atual) / (slides.length - 1) * 100) + '%';
     if (comHash !== false) history.replaceState(null, '', '#' + (atual + 1));
@@ -913,6 +1050,7 @@ kbd{
     else if (k === 'g' || k === 'G' || k === 'o' || k === 'O'){ alternarGrade(); }
     else if (k === 'b' || k === 'B' || k === '.'){ apagado.hidden = !apagado.hidden; }
     else if (k === 'm' || k === 'M'){ alternarSom(); }
+    else if (k === 'a' || k === 'A'){ alternarMovimento(); }
     else if (k === 't' || k === 'T'){ cronometro.hidden = !cronometro.hidden; }
     else if (k === 'r' || k === 'R'){ inicio = Date.now(); }
     else if (k === '?' || k === 'h' || k === 'H'){ ajuda.hidden = !ajuda.hidden; }
@@ -940,6 +1078,7 @@ kbd{
   document.getElementById('btn-proximo').addEventListener('click', proximo);
   document.getElementById('btn-anterior').addEventListener('click', anterior);
   document.getElementById('btn-grade').addEventListener('click', alternarGrade);
+  document.getElementById('btn-anim').addEventListener('click', alternarMovimento);
   document.getElementById('btn-tela').addEventListener('click', telaCheia);
   document.getElementById('btn-ajuda').addEventListener('click', function(){ ajuda.hidden = !ajuda.hidden; });
 
@@ -976,6 +1115,14 @@ kbd{
      que ela existe */
   mostrarBarra();
   mostrarCursor();
+
+  /* quem cai aqui com o movimento desligado pelo sistema precisa saber
+     que dá para ligar — senão acha que o deck é assim mesmo */
+  if (!movimentoLigado() && escolha === null){
+    setTimeout(function(){
+      mostrarAviso('Animações desligadas pelo sistema deste computador. Tecla A liga.');
+    }, 1200);
+  }
 
   /* ---- posição inicial vinda da URL (#7) ---- */
   var inicial = parseInt((location.hash || '').replace('#',''), 10);
