@@ -1,0 +1,776 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Buggo Pitch</title>
+<meta name="description" content="Pitch deck do Buggo — aprenda a programar brincando.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,600;0,700;0,900;1,700;1,900&family=Roboto:ital,wght@0,400;0,700;0,900;1,700&display=swap">
+<style>
+/* ============================================================
+   Buggo — deck de apresentação
+   Tema único (escuro), fiel ao arquivo original do PowerPoint.
+   Todas as cores são pintadas explicitamente.
+   ============================================================ */
+:root{
+  --ink-0:#000000;            /* fundo do palco */
+  --ink-1:#0b0910;            /* fundo da moldura da página */
+  --branco:#ffffff;
+  --lavanda:#a3a7ff;          /* accent2 do tema original */
+  --roxo:#8733ff;             /* lt2 do tema original */
+  --roxo-fundo:#4f2aad;       /* dk2 do tema original */
+  --magenta:#ff31fa;
+  --verde:#64cf64;            /* verde do mascote */
+  --cinza:#9c96b5;            /* neutro com viés lavanda */
+  --cinza-forte:#c8c3dd;
+
+  --stage-w:1600px;
+  --stage-h:900px;
+
+  --display:"Poppins","Segoe UI",system-ui,sans-serif;
+  --texto:"Roboto","Segoe UI",system-ui,sans-serif;
+}
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  background:var(--ink-1);
+  color:var(--branco);
+  font-family:var(--texto);
+  overflow:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* ---------- palco 16:9 escalado para qualquer tela ---------- */
+#deck{position:fixed;inset:0;background:var(--ink-1)}
+#stage{
+  position:absolute;left:50%;top:50%;
+  width:var(--stage-w);height:var(--stage-h);
+  transform:translate(-50%,-50%) scale(1);
+  transform-origin:center center;
+  background:var(--ink-0);
+  overflow:hidden;
+}
+
+/* ---------- slides ---------- */
+.slide{
+  position:absolute;inset:0;
+  background-color:var(--ink-0);
+  background-repeat:no-repeat;
+  opacity:0;visibility:hidden;
+  transition:opacity .38s ease, transform .38s ease;
+  transform:translateY(14px);
+}
+.slide.is-active{opacity:1;visibility:visible;transform:none}
+@media (prefers-reduced-motion:reduce){
+  .slide{transition:none;transform:none}
+}
+
+/* ---------- atmosferas de fundo (recriadas em CSS) ---------- */
+.bg-hero{
+  background-image:
+    radial-gradient(34% 42% at 34% -10%, rgba(135,51,255,.72), rgba(135,51,255,0) 68%),
+    radial-gradient(30% 44% at 104% 108%, rgba(255,49,250,.62), rgba(255,49,250,0) 66%),
+    radial-gradient(20% 28% at 90% 98%, rgba(163,167,255,.55), rgba(163,167,255,0) 70%),
+    linear-gradient(180deg, rgba(0,0,0,0) 40%, #2b0a58 56%, #8733ff 78%, #a9a3ff 100%);
+  background-size:100% 100%,100% 100%,100% 100%,78px 100%;
+  background-position:0 0,0 0,0 0,0 0;
+}
+.bg-problema{
+  background-image:
+    radial-gradient(30% 40% at 3% 4%, rgba(135,51,255,.85), rgba(135,51,255,0) 66%),
+    linear-gradient(180deg,#b9bcff 0%,#8733ff 30%,#6a22c9 52%,#2b0a58 74%,#000 96%);
+  background-size:100% 100%,128px 100%;
+  background-position:0 0,100% 0;
+}
+.bg-foto{
+  background-image:linear-gradient(180deg,#a3a7ff 0%,#8733ff 38%,#4f2aad 62%,#12032b 84%,#000 100%);
+  background-size:26px 100%;
+  background-position:100% 0;
+}
+.bg-foto--roxo{
+  background-image:
+    radial-gradient(26% 34% at 98% 104%, rgba(135,51,255,.75), rgba(135,51,255,0) 66%),
+    linear-gradient(180deg,#a3a7ff 0%,#8733ff 38%,#4f2aad 62%,#12032b 84%,#000 100%);
+  background-size:100% 100%,26px 100%;
+  background-position:0 0,100% 0;
+}
+.bg-foto--magenta{
+  background-image:
+    radial-gradient(28% 34% at 72% 108%, rgba(255,49,250,.6), rgba(255,49,250,0) 66%),
+    linear-gradient(180deg,#a3a7ff 0%,#8733ff 38%,#4f2aad 62%,#12032b 84%,#000 100%);
+  background-size:100% 100%,26px 100%;
+  background-position:0 0,100% 0;
+}
+.bg-revelacao{
+  background-image:
+    radial-gradient(24% 32% at 100% 16%, rgba(135,51,255,.85), rgba(135,51,255,0) 64%),
+    linear-gradient(180deg, rgba(0,0,0,0) 44%, #3a1180 60%, #8733ff 82%, #b9a6ff 100%);
+  background-size:100% 100%,72px 100%;
+  background-position:0 0,0 0;
+}
+.bg-duo{
+  background-image:
+    radial-gradient(24% 32% at 6% -4%, rgba(255,49,250,.7), rgba(255,49,250,0) 66%),
+    radial-gradient(26% 36% at 96% 106%, rgba(135,51,255,.75), rgba(135,51,255,0) 66%);
+}
+.bg-solucao{
+  background-image:
+    radial-gradient(24% 34% at -4% 46%, rgba(135,51,255,.7), rgba(135,51,255,0) 68%),
+    radial-gradient(26% 34% at 44% 122%, rgba(255,49,250,.32), rgba(255,49,250,0) 66%),
+    linear-gradient(180deg,#b9bcff 0%,#8733ff 32%,#4f2aad 60%,#000 100%);
+  background-size:100% 100%,100% 100%,118px 100%;
+  background-position:0 0,0 0,100% 0;
+}
+.bg-app{
+  background-image:
+    radial-gradient(26% 36% at 2% 34%, rgba(135,51,255,.68), rgba(135,51,255,0) 66%),
+    linear-gradient(180deg,#000 0%,#4f2aad 34%,#8733ff 64%,#b9a6ff 100%);
+  background-size:100% 100%,118px 100%;
+  background-position:0 0,100% 0;
+}
+.bg-mercado{
+  background-image:
+    radial-gradient(24% 34% at 34% 124%, rgba(135,51,255,.6), rgba(135,51,255,0) 64%),
+    linear-gradient(180deg,#a3a7ff 0%,#8733ff 40%,#2b0a58 78%,#000 100%);
+  background-size:100% 100%,96px 100%;
+  background-position:0 0,0 0;
+}
+.bg-preco{
+  background-image:
+    radial-gradient(24% 32% at 100% 2%, rgba(255,49,250,.6), rgba(255,49,250,0) 64%),
+    linear-gradient(180deg,#1a0538 0%,#4f2aad 30%,#7a2ae0 62%,#9b3fd8 100%);
+  background-size:100% 100%,112px 100%;
+  background-position:0 0,0 0;
+}
+.bg-obrigado{
+  background-image:
+    radial-gradient(26% 34% at 34% -12%, rgba(135,51,255,.7), rgba(135,51,255,0) 66%),
+    radial-gradient(26% 34% at 102% 106%, rgba(255,49,250,.6), rgba(255,49,250,0) 64%),
+    linear-gradient(180deg, rgba(0,0,0,0) 40%, #2b0a58 58%, #8733ff 80%, #b9a6ff 100%);
+  background-size:100% 100%,100% 100%,74px 100%;
+  background-position:0 0,0 0,0 0;
+}
+
+/* ---------- tipografia base do palco ---------- */
+.slide h1,.slide h2,.slide h3,.slide p,.slide ul,.slide li{margin:0}
+.slide ul{list-style:none;padding:0}
+.acento{color:var(--lavanda)}
+
+/* ---------- 1. capa ---------- */
+.capa{height:100%;display:grid;grid-template-columns:1fr 1fr;align-items:center}
+.capa-texto{padding-left:150px}
+.capa h1{
+  font-family:var(--display);font-weight:900;font-size:152px;line-height:.9;
+  letter-spacing:-.045em;color:var(--branco);
+}
+.capa p{
+  margin-top:76px;
+  font-family:var(--display);font-weight:900;font-size:56px;line-height:1.14;
+  letter-spacing:-.02em;color:var(--lavanda);
+}
+.celulares{position:relative;height:100%}
+.celulares .celular{position:absolute;transform:rotate(-14deg)}
+.celulares .celular--tras{width:300px;right:78px;top:190px}
+.celulares .celular--frente{width:322px;right:250px;top:88px}
+
+.celular{
+  border-radius:40px;padding:8px;background:#0a0910;
+  box-shadow:0 46px 90px rgba(0,0,0,.8), 0 0 0 2px rgba(255,255,255,.07);
+}
+.celular img,.celular video{display:block;width:100%;height:auto;border-radius:33px;background:#07060c}
+
+/* ---------- 2 a 5. problemas ---------- */
+.problema{height:100%;display:grid;place-items:center;padding:0 300px 60px}
+.problema p{
+  font-family:var(--display);font-weight:900;font-size:78px;line-height:1.18;
+  letter-spacing:-.02em;text-align:center;text-wrap:balance;color:var(--branco);
+}
+.problema .acento{display:block}
+
+/* ---------- 6, 9, 15. citações com foto ---------- */
+.citacao{height:100%;display:grid;grid-template-columns:46% 54%;align-items:center}
+.citacao figure{margin:0;height:100%;overflow:hidden}
+.citacao img{display:block;width:100%;height:100%;object-fit:cover}
+.citacao blockquote{
+  margin:0;padding:0 130px 0 90px;
+  font-family:var(--texto);font-weight:700;font-style:italic;font-size:44px;line-height:1.32;
+  text-align:center;text-wrap:balance;color:var(--branco);
+}
+
+/* ---------- 7. a descoberta ---------- */
+.revelacao{height:100%;display:grid;place-content:center;justify-items:center;gap:26px;padding-bottom:70px}
+.revelacao .um{font-family:var(--display);font-weight:900;font-size:118px;line-height:1;color:var(--branco)}
+.revelacao .dois{font-family:var(--display);font-weight:900;font-size:136px;line-height:1;letter-spacing:-.02em;color:var(--lavanda)}
+
+/* ---------- 8. duolingo ---------- */
+.duo{height:100%;display:grid;place-content:center;justify-items:center;gap:56px;padding:0 260px}
+.duo h2{font-family:var(--display);font-weight:900;font-size:132px;line-height:1;letter-spacing:-.03em;color:var(--lavanda)}
+.duo p{font-family:var(--display);font-weight:900;font-size:60px;line-height:1.2;text-align:center;text-wrap:balance;color:var(--branco)}
+
+/* ---------- 10. a solução ---------- */
+.solucao{height:100%;display:grid;grid-template-columns:1fr 520px;align-items:center;gap:60px;padding:0 150px 0 130px}
+.solucao h2{
+  font-family:var(--display);font-weight:900;font-size:70px;letter-spacing:-.01em;
+  color:var(--lavanda);margin-bottom:78px;
+}
+.pilares{display:grid;gap:64px}
+.pilar{display:grid;grid-template-columns:74px 1fr;align-items:center;gap:34px}
+.pilar img{width:56px;height:56px;object-fit:contain;justify-self:center}
+.pilar span{font-family:var(--display);font-weight:900;font-size:48px;letter-spacing:-.01em;color:var(--branco)}
+.mascote{width:100%;height:auto;display:block;filter:drop-shadow(0 30px 70px rgba(135,51,255,.45))}
+
+/* ---------- 11. outro aplicativo ---------- */
+.app{height:100%;display:grid;grid-template-columns:430px 190px 1fr;align-items:center;padding:0 150px 0 190px}
+.app .celular{width:340px}
+.conector{width:190px;height:170px;overflow:visible}
+.app h2{
+  font-family:var(--display);font-weight:900;font-size:76px;line-height:1.14;
+  letter-spacing:-.02em;text-align:center;color:var(--branco);
+}
+
+/* ---------- 12. mercado ---------- */
+.mercado{height:100%;display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:70px;padding:70px 140px 130px 200px;position:relative}
+.numeros{display:grid;gap:58px;justify-items:center}
+.numero b{display:block;font-family:var(--display);font-weight:900;font-size:82px;line-height:1;letter-spacing:-.02em;color:var(--lavanda);text-align:center}
+.numero span{display:block;margin-top:6px;font-family:var(--texto);font-size:32px;color:var(--branco);text-align:center}
+.grafico h3{font-family:var(--display);font-weight:900;font-size:56px;letter-spacing:-.01em;color:var(--branco);text-align:center;margin-bottom:26px}
+.grafico svg{display:block;width:100%;height:auto}
+.nota{
+  position:absolute;left:200px;right:140px;bottom:96px;
+  font-family:var(--texto);font-size:22px;line-height:1.4;color:var(--cinza);text-align:center;
+}
+
+/* ---------- 13 e 14. planos ---------- */
+.plano{height:100%;display:grid;place-content:center;justify-items:center;gap:96px;padding:0 240px}
+.plano h2{font-family:var(--texto);font-weight:900;font-size:110px;line-height:1;letter-spacing:-.02em;color:var(--lavanda)}
+.plano ul{display:grid;gap:22px}
+.plano li{
+  display:grid;grid-template-columns:34px 1fr;align-items:baseline;gap:18px;
+  font-family:var(--display);font-weight:900;font-size:48px;line-height:1.24;color:var(--branco);
+}
+.plano li::before{content:"";width:15px;height:15px;border-radius:50%;background:var(--branco);transform:translateY(-10px);justify-self:center}
+
+/* ---------- 16. obrigado ---------- */
+.obrigado{height:100%;display:grid;place-content:center;justify-items:center;gap:34px;padding:40px 0 30px}
+.obrigado h2{font-family:var(--display);font-weight:900;font-size:104px;line-height:1;letter-spacing:-.03em;color:var(--branco);margin-bottom:14px}
+.obrigado a.email{font-family:var(--texto);font-size:34px;color:var(--lavanda);text-decoration:none}
+.obrigado a.email:hover{text-decoration:underline}
+.obrigado .linha{font-family:var(--texto);font-size:34px;color:var(--branco)}
+.redes{display:flex;gap:22px}
+.redes a{display:block;width:66px;height:66px;color:var(--roxo);transition:color .2s ease,transform .2s ease}
+.redes a:hover,.redes a:focus-visible{color:var(--lavanda);transform:translateY(-3px)}
+.redes svg{width:100%;height:100%;display:block}
+.qr{width:196px;height:196px;background:#fff;padding:8px;border-radius:4px}
+.qr img{display:block;width:100%;height:100%;image-rendering:pixelated}
+
+/* ============================================================
+   Controles do apresentador
+   ============================================================ */
+#barra{
+  position:fixed;left:0;right:0;bottom:0;height:4px;background:rgba(255,255,255,.09);z-index:40;
+}
+#barra i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--roxo),var(--lavanda));transition:width .3s ease}
+
+#controles{
+  position:fixed;left:50%;bottom:22px;transform:translateX(-50%);
+  display:flex;align-items:center;gap:6px;padding:7px 10px;z-index:50;
+  background:rgba(16,13,26,.82);border:1px solid rgba(163,167,255,.22);border-radius:999px;
+  backdrop-filter:blur(10px);
+  transition:opacity .3s ease,transform .3s ease;
+}
+#controles button{
+  width:38px;height:38px;display:grid;place-items:center;cursor:pointer;
+  background:transparent;border:0;border-radius:999px;color:var(--cinza-forte);
+  font-family:var(--display);font-size:16px;font-weight:700;
+}
+#controles button:hover{background:rgba(163,167,255,.16);color:var(--branco)}
+#controles svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+#contador{
+  padding:0 12px;font-family:var(--texto);font-size:14px;font-variant-numeric:tabular-nums;
+  color:var(--cinza-forte);letter-spacing:.08em;
+}
+body.oculto #controles{opacity:0;transform:translateX(-50%) translateY(10px);pointer-events:none}
+body.oculto{cursor:none}
+
+#cronometro{
+  position:fixed;top:18px;right:20px;z-index:50;padding:8px 16px;border-radius:999px;
+  background:rgba(16,13,26,.82);border:1px solid rgba(163,167,255,.22);
+  font-family:var(--texto);font-size:20px;font-variant-numeric:tabular-nums;color:var(--lavanda);
+}
+
+#apagado{position:fixed;inset:0;background:#000;z-index:70}
+
+#grade{
+  position:fixed;inset:0;z-index:60;overflow-y:auto;padding:34px;
+  background:rgba(6,5,11,.97);
+}
+.grade-lista{display:grid;grid-template-columns:repeat(auto-fill,minmax(268px,1fr));gap:20px;max-width:1400px;margin:0 auto}
+.miniatura{
+  position:relative;background:#000;border:2px solid rgba(163,167,255,.2);border-radius:10px;
+  overflow:hidden;cursor:pointer;padding:0;aspect-ratio:16/9;
+}
+.miniatura:hover,.miniatura:focus-visible{border-color:var(--lavanda)}
+.miniatura.atual{border-color:var(--roxo);box-shadow:0 0 0 3px rgba(135,51,255,.35)}
+.miniatura-palco{
+  position:absolute;top:0;left:0;width:1600px;height:900px;transform-origin:top left;pointer-events:none;
+}
+.miniatura-palco .slide{opacity:1;visibility:visible;transform:none;transition:none}
+.miniatura b{
+  position:absolute;left:8px;bottom:8px;z-index:2;padding:3px 9px;border-radius:6px;
+  background:rgba(0,0,0,.7);font-family:var(--texto);font-size:12px;font-weight:400;
+  color:var(--cinza-forte);font-variant-numeric:tabular-nums;
+}
+
+#ajuda{
+  position:fixed;inset:0;z-index:65;display:grid;place-items:center;background:rgba(6,5,11,.93);
+}
+.ajuda-cartao{
+  width:min(560px,90vw);padding:34px 38px;border-radius:16px;
+  background:#100d1a;border:1px solid rgba(163,167,255,.24);
+}
+.ajuda-cartao h3{margin:0 0 20px;font-family:var(--display);font-weight:900;font-size:26px;color:var(--branco)}
+.ajuda-cartao dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:12px 22px;align-items:baseline}
+.ajuda-cartao dt{font-family:var(--texto);font-size:14px;color:var(--lavanda);white-space:nowrap}
+.ajuda-cartao dd{margin:0;font-family:var(--texto);font-size:14px;color:var(--cinza-forte)}
+kbd{
+  display:inline-block;padding:2px 8px;border-radius:5px;background:rgba(163,167,255,.14);
+  border:1px solid rgba(163,167,255,.3);font-family:var(--texto);font-size:13px;color:var(--branco);
+}
+[hidden]{display:none !important}
+:focus-visible{outline:3px solid var(--lavanda);outline-offset:3px}
+
+/* ---------- impressão: um slide por página (plano B em PDF) ---------- */
+@media print{
+  @page{size:1600px 900px;margin:0}
+  body{overflow:visible;background:#000}
+  #deck{position:static}
+  #stage{position:static;transform:none;width:1600px;height:auto;overflow:visible}
+  .slide{position:relative;width:1600px;height:900px;opacity:1;visibility:visible;transform:none;break-after:page}
+  #controles,#barra,#cronometro,#grade,#ajuda,#apagado{display:none !important}
+}
+</style>
+</head>
+<body>
+
+<div id="deck">
+  <div id="stage">
+
+    <!-- 1 · capa -->
+    <section class="slide bg-hero" data-titulo="Capa">
+      <div class="capa">
+        <div class="capa-texto">
+          <h1>Buggo</h1>
+          <p>Aprenda a programar<br>brincando</p>
+        </div>
+        <div class="celulares">
+          <div class="celular celular--tras"><img src="assets/tela-home-python.jpg" alt="Tela inicial do Buggo com a trilha de Python, XP e moedas"></div>
+          <div class="celular celular--frente"><img src="assets/tela-licao.jpg" alt="Lição do Buggo: completar o código de uma função em Python"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2 · problema -->
+    <section class="slide bg-problema" data-titulo="YouTube">
+      <div class="problema">
+        <p>Abri o YouTube era vídeo de 8 horas resolvi <span class="acento">FECHAR!</span></p>
+      </div>
+    </section>
+
+    <!-- 3 · problema -->
+    <section class="slide bg-problema" data-titulo="Curso em inglês">
+      <div class="problema">
+        <p>Tentei um curso online mas era em inglês então <span class="acento">FECHEI!</span></p>
+      </div>
+    </section>
+
+    <!-- 4 · problema -->
+    <section class="slide bg-problema" data-titulo="Livro">
+      <div class="problema">
+        <p>Abri um livro logo na página 3 e eu <span class="acento">DESISTI!</span></p>
+      </div>
+    </section>
+
+    <!-- 5 · problema -->
+    <section class="slide bg-problema" data-titulo="Entrevista">
+      <div class="problema">
+        <p>Fui até a entrevista de estágio sem saber nada e sai <span class="acento">ENVERGONHADO!</span></p>
+      </div>
+    </section>
+
+    <!-- 6 · citação -->
+    <section class="slide bg-foto" data-titulo="Falta de caminho">
+      <div class="citacao">
+        <figure><img src="assets/foto-frustrado.jpg" alt="Jovem cansado diante do notebook, cercado de papéis e copos de café"></figure>
+        <blockquote>“Não era falta de vontade. Era falta de caminho.”</blockquote>
+      </div>
+    </section>
+
+    <!-- 7 · a descoberta -->
+    <section class="slide bg-revelacao" data-titulo="A Descoberta">
+      <div class="revelacao">
+        <span class="um">A</span>
+        <span class="dois">Descoberta!</span>
+      </div>
+    </section>
+
+    <!-- 8 · duolingo -->
+    <section class="slide bg-duo" data-titulo="Duolingo">
+      <div class="duo">
+        <h2>Duolingo</h2>
+        <p>500M+ usuários aprendendo idiomas<br>5 minutos por dia sem sofrimento</p>
+      </div>
+    </section>
+
+    <!-- 9 · citação -->
+    <section class="slide bg-foto bg-foto--roxo" data-titulo="Por que não?">
+      <div class="citacao">
+        <figure><img src="assets/foto-descoberta.jpg" alt="Jovem surpreso olhando para o celular na sala"></figure>
+        <blockquote>“Por que a programação não podia ser assim?”</blockquote>
+      </div>
+    </section>
+
+    <!-- 10 · a solução -->
+    <section class="slide bg-solucao" data-titulo="A solução: Buggo">
+      <div class="solucao">
+        <div>
+          <h2>A SOLUÇÃO: BUGGO</h2>
+          <ul class="pilares">
+            <li class="pilar"><img src="assets/ico-mobile.png" alt=""><span>Mobile First</span></li>
+            <li class="pilar"><img src="assets/ico-licoes.png" alt=""><span>Micro-lições</span></li>
+            <li class="pilar"><img src="assets/ico-trilha.png" alt=""><span>Trilha estruturada</span></li>
+          </ul>
+        </div>
+        <img class="mascote" src="assets/mascote.png" alt="Buggo, o mascote: um robô verde sobre um quadrado roxo com o símbolo &lt;/&gt;">
+      </div>
+    </section>
+
+    <!-- 11 · outro aplicativo -->
+    <section class="slide bg-app" data-titulo="Outro aplicativo">
+      <div class="app">
+        <div class="celular">
+          <video src="assets/buggo-app.mp4" poster="assets/tela-home-logica.jpg"
+                 muted loop playsinline preload="auto"
+                 aria-label="Gravação de tela do Buggo em uso: trilha, lição e execução do código"></video>
+        </div>
+        <svg class="conector" viewBox="0 0 190 170" aria-hidden="true">
+          <polyline points="0,20 96,20 96,150 176,150" fill="none" stroke="#ffffff" stroke-width="3"></polyline>
+          <circle cx="180" cy="150" r="7" fill="#ffffff"></circle>
+        </svg>
+        <h2>Outro aplicativo, mas o mesmo <span class="acento">objetivo!</span></h2>
+      </div>
+    </section>
+
+    <!-- 12 · mercado -->
+    <section class="slide bg-mercado" data-titulo="Mercado">
+      <div class="mercado">
+        <div class="numeros">
+          <div class="numero"><b>500K+</b><span>vagas em tecnologia</span></div>
+          <div class="numero"><b>45M</b><span>jovens brasileiros</span></div>
+          <div class="numero"><b>5–15%</b><span>conclusão de cursos</span></div>
+        </div>
+        <div class="grafico">
+          <h3>Brasil:</h3>
+          <svg viewBox="0 0 620 380" role="img" aria-label="Gráfico de barras do crescimento no Brasil: 2024, 2025 e 2026 em escala de 0 a 100">
+            <g stroke="rgba(255,255,255,.16)" stroke-width="1">
+              <line x1="56" y1="20" x2="600" y2="20"></line>
+              <line x1="56" y1="97.5" x2="600" y2="97.5"></line>
+              <line x1="56" y1="175" x2="600" y2="175"></line>
+              <line x1="56" y1="252.5" x2="600" y2="252.5"></line>
+            </g>
+            <g fill="#9c96b5" font-family="Roboto, sans-serif" font-size="16" text-anchor="end" style="font-variant-numeric:tabular-nums">
+              <text x="44" y="25">100</text>
+              <text x="44" y="102.5">75</text>
+              <text x="44" y="180">50</text>
+              <text x="44" y="257.5">25</text>
+              <text x="44" y="335">0</text>
+            </g>
+            <g fill="#ff31fa">
+              <path d="M101,330 L101,232 Q101,228 105,228 L189,228 Q193,228 193,232 L193,330 Z"></path>
+              <path d="M282,330 L282,129 Q282,125 286,125 L370,125 Q374,125 374,129 L374,330 Z"></path>
+              <path d="M463,330 L463,27 Q463,23 467,23 L551,23 Q555,23 555,27 L555,330 Z"></path>
+            </g>
+            <line x1="56" y1="330" x2="600" y2="330" stroke="rgba(255,255,255,.5)" stroke-width="1.5"></line>
+            <g fill="#ffffff" font-family="Roboto, sans-serif" font-size="19" text-anchor="middle" style="font-variant-numeric:tabular-nums">
+              <text x="147" y="360">2024</text>
+              <text x="328" y="360">2025</text>
+              <text x="509" y="360">2026</text>
+            </g>
+          </svg>
+        </div>
+        <p class="nota">Benchmarks: Duolingo (30M usuários no BR) prova que o modelo gamificado escala em larga escala.</p>
+      </div>
+    </section>
+
+    <!-- 13 · gratuito -->
+    <section class="slide bg-preco" data-titulo="Gratuito">
+      <div class="plano">
+        <h2>Gratuito</h2>
+        <ul>
+          <li>Trilhas básicas completas</li>
+          <li>Lições básicas</li>
+          <li>XP, moedas e streaks</li>
+          <li>Desafios diários</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 14 · assinatura -->
+    <section class="slide bg-preco" data-titulo="R$19,90">
+      <div class="plano">
+        <h2>R$19.90</h2>
+        <ul>
+          <li>Sem anúncios</li>
+          <li>Acessos antecipados</li>
+          <li>Conteúdos exclusivos</li>
+          <li>Ajuda em ONGS</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 15 · citação final -->
+    <section class="slide bg-foto bg-foto--magenta" data-titulo="Se eu consegui">
+      <div class="citacao">
+        <figure><img src="assets/foto-certificado.jpg" alt="Jovem sorrindo e apontando para o certificado de conclusão de programador"></figure>
+        <blockquote>“Se eu consegui, você também consegue!”</blockquote>
+      </div>
+    </section>
+
+    <!-- 16 · obrigado -->
+    <section class="slide bg-obrigado" data-titulo="Obrigado">
+      <div class="obrigado">
+        <h2>Obrigado</h2>
+        <a class="email" href="mailto:contact@caspheon.com">contact@caspheon.com</a>
+        <p class="linha">+11 96501-5252 | caspheon.com</p>
+        <div class="redes">
+          <a href="https://caspheon.com" target="_blank" rel="noopener" aria-label="Facebook">
+            <svg viewBox="0 0 48 48"><rect x="2" y="2" width="44" height="44" rx="11" fill="none" stroke="currentColor" stroke-width="3"></rect><path d="M29 13.5h-3.6c-3.2 0-5.3 2.1-5.3 5.4V22h-3.3v4.7h3.3V38h4.9V26.7h3.6l.7-4.7h-4.3v-2.6c0-1.1.5-1.8 1.9-1.8H29v-4.1Z" fill="currentColor"></path></svg>
+          </a>
+          <a href="https://caspheon.com" target="_blank" rel="noopener" aria-label="Instagram">
+            <svg viewBox="0 0 48 48"><rect x="2" y="2" width="44" height="44" rx="11" fill="none" stroke="currentColor" stroke-width="3"></rect><rect x="13" y="13" width="22" height="22" rx="7" fill="none" stroke="currentColor" stroke-width="3"></rect><circle cx="24" cy="24" r="5.4" fill="none" stroke="currentColor" stroke-width="3"></circle><circle cx="31.4" cy="16.6" r="1.9" fill="currentColor"></circle></svg>
+          </a>
+          <a href="https://caspheon.com" target="_blank" rel="noopener" aria-label="LinkedIn">
+            <svg viewBox="0 0 48 48"><rect x="2" y="2" width="44" height="44" rx="11" fill="none" stroke="currentColor" stroke-width="3"></rect><rect x="13.6" y="20.5" width="4.8" height="14" fill="currentColor"></rect><circle cx="16" cy="15.4" r="2.8" fill="currentColor"></circle><path d="M22.6 34.5v-14h4.6v1.9c.9-1.4 2.4-2.3 4.5-2.3 3.4 0 5.7 2.2 5.7 6.3v8.1h-4.8v-7.3c0-2-.9-3.2-2.7-3.2-1.7 0-2.8 1.2-2.8 3.2v7.3h-4.5Z" fill="currentColor"></path></svg>
+          </a>
+          <a href="https://caspheon.com" target="_blank" rel="noopener" aria-label="TikTok">
+            <svg viewBox="0 0 48 48"><rect x="2" y="2" width="44" height="44" rx="11" fill="none" stroke="currentColor" stroke-width="3"></rect><path d="M27.4 12.5h3.7c.4 2.8 2.2 4.8 4.9 5.1v3.8c-1.9 0-3.6-.6-5-1.7v7.1c0 4.1-3.2 7.3-7.1 7.3s-7.1-3.3-7.1-7.3 3.2-7.3 7.1-7.3c.4 0 .8 0 1.2.1v3.9c-.4-.1-.8-.2-1.2-.2-1.9 0-3.4 1.6-3.4 3.5s1.5 3.5 3.4 3.5 3.5-1.6 3.5-3.5V12.5Z" fill="currentColor"></path></svg>
+          </a>
+        </div>
+        <div class="qr"><img src="assets/qr.png" alt="QR code para caspheon.com"></div>
+      </div>
+    </section>
+
+  </div>
+</div>
+
+<div id="cronometro" hidden>00:00</div>
+<div id="apagado" hidden></div>
+
+<div id="controles">
+  <button id="btn-anterior" type="button" aria-label="Slide anterior"><svg viewBox="0 0 24 24"><path d="M15 5 8 12l7 7"></path></svg></button>
+  <span id="contador">01 / 17</span>
+  <button id="btn-proximo" type="button" aria-label="Próximo slide"><svg viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"></path></svg></button>
+  <button id="btn-grade" type="button" aria-label="Ver todos os slides"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"></rect><rect x="14" y="3" width="7" height="7" rx="1"></rect><rect x="3" y="14" width="7" height="7" rx="1"></rect><rect x="14" y="14" width="7" height="7" rx="1"></rect></svg></button>
+  <button id="btn-tela" type="button" aria-label="Tela cheia"><svg viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"></path></svg></button>
+  <button id="btn-ajuda" type="button" aria-label="Atalhos do teclado">?</button>
+</div>
+
+<div id="barra"><i id="progresso"></i></div>
+
+<div id="grade" hidden><div class="grade-lista" id="grade-lista"></div></div>
+
+<div id="ajuda" hidden>
+  <div class="ajuda-cartao">
+    <h3>Atalhos</h3>
+    <dl>
+      <dt><kbd>→</kbd> <kbd>espaço</kbd></dt><dd>Próximo slide</dd>
+      <dt><kbd>←</kbd></dt><dd>Slide anterior</dd>
+      <dt><kbd>Home</kbd> <kbd>End</kbd></dt><dd>Primeiro / último slide</dd>
+      <dt><kbd>F</kbd></dt><dd>Tela cheia</dd>
+      <dt><kbd>G</kbd></dt><dd>Ver todos os slides</dd>
+      <dt><kbd>B</kbd></dt><dd>Apagar a tela (fica preta)</dd>
+      <dt><kbd>M</kbd></dt><dd>Som do vídeo (começa sem som)</dd>
+      <dt><kbd>T</kbd></dt><dd>Cronômetro · <kbd>R</kbd> zera</dd>
+      <dt><kbd>Esc</kbd></dt><dd>Fecha o que estiver aberto</dd>
+    </dl>
+  </div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  var stage    = document.getElementById('stage');
+  var slides   = Array.prototype.slice.call(stage.querySelectorAll('.slide'));
+  var contador = document.getElementById('contador');
+  var progresso= document.getElementById('progresso');
+  var grade    = document.getElementById('grade');
+  var gradeLista = document.getElementById('grade-lista');
+  var ajuda    = document.getElementById('ajuda');
+  var apagado  = document.getElementById('apagado');
+  var cronometro = document.getElementById('cronometro');
+  var atual = 0;
+
+  /* ---- escala o palco 16:9 para caber em qualquer projetor ---- */
+  function ajustar(){
+    var escala = Math.min(window.innerWidth / 1600, window.innerHeight / 900);
+    stage.style.transform = 'translate(-50%,-50%) scale(' + escala + ')';
+  }
+  window.addEventListener('resize', ajustar);
+  ajustar();
+
+  function doisDigitos(n){ return (n < 10 ? '0' : '') + n; }
+
+  /* ---- vídeo do app: toca sozinho ao chegar no slide, volta ao início ao sair ---- */
+  var videos = Array.prototype.slice.call(stage.querySelectorAll('video'));
+  var comSom = false;
+  function sincronizarVideos(){
+    videos.forEach(function(v){
+      var ativo = v.closest('.slide').classList.contains('is-active');
+      v.muted = !ativo || !comSom;
+      if (ativo) { var p = v.play(); if (p && p.catch) p.catch(function(){}); }
+      else { v.pause(); v.currentTime = 0; }
+    });
+  }
+  function alternarSom(){
+    comSom = !comSom;
+    sincronizarVideos();
+  }
+
+  /* ---- navegação ---- */
+  function ir(n, comHash){
+    n = Math.max(0, Math.min(slides.length - 1, n));
+    slides[atual].classList.remove('is-active');
+    atual = n;
+    slides[atual].classList.add('is-active');
+    contador.textContent = doisDigitos(atual + 1) + ' / ' + doisDigitos(slides.length);
+    progresso.style.width = ((atual) / (slides.length - 1) * 100) + '%';
+    if (comHash !== false) history.replaceState(null, '', '#' + (atual + 1));
+    var atuais = gradeLista.querySelectorAll('.miniatura');
+    for (var i = 0; i < atuais.length; i++) atuais[i].classList.toggle('atual', i === atual);
+    sincronizarVideos();
+  }
+  function proximo(){ ir(atual + 1); }
+  function anterior(){ ir(atual - 1); }
+
+  /* ---- visão geral (miniaturas reais dos slides) ---- */
+  var gradeMontada = false;
+  function montarGrade(){
+    if (gradeMontada) return;
+    slides.forEach(function(slide, i){
+      var botao = document.createElement('button');
+      botao.className = 'miniatura';
+      botao.type = 'button';
+      botao.setAttribute('aria-label', (i + 1) + '. ' + (slide.dataset.titulo || 'Slide'));
+      var palco = document.createElement('div');
+      palco.className = 'miniatura-palco';
+      var copia = slide.cloneNode(true);
+      copia.removeAttribute('id');
+      copia.querySelectorAll('[id]').forEach(function(el){ el.removeAttribute('id'); });
+      /* na miniatura o vídeo vira só a imagem de capa — não baixa o arquivo de novo */
+      copia.querySelectorAll('video').forEach(function(v){
+        var img = document.createElement('img');
+        img.src = v.getAttribute('poster');
+        img.alt = '';
+        v.parentNode.replaceChild(img, v);
+      });
+      copia.classList.add('is-active');
+      palco.appendChild(copia);
+      botao.appendChild(palco);
+      var rotulo = document.createElement('b');
+      rotulo.textContent = doisDigitos(i + 1) + ' · ' + (slide.dataset.titulo || '');
+      botao.appendChild(rotulo);
+      botao.addEventListener('click', function(){ fecharGrade(); ir(i); });
+      gradeLista.appendChild(botao);
+    });
+    gradeMontada = true;
+    escalarMiniaturas();
+    window.addEventListener('resize', escalarMiniaturas);
+  }
+  function escalarMiniaturas(){
+    gradeLista.querySelectorAll('.miniatura').forEach(function(botao){
+      var palco = botao.firstChild;
+      palco.style.transform = 'scale(' + (botao.clientWidth / 1600) + ')';
+    });
+  }
+  function abrirGrade(){ montarGrade(); grade.hidden = false; escalarMiniaturas(); ir(atual); }
+  function fecharGrade(){ grade.hidden = true; }
+  function alternarGrade(){ grade.hidden ? abrirGrade() : fecharGrade(); }
+
+  /* ---- cronômetro ---- */
+  var inicio = Date.now();
+  setInterval(function(){
+    if (cronometro.hidden) return;
+    var s = Math.floor((Date.now() - inicio) / 1000);
+    cronometro.textContent = doisDigitos(Math.floor(s / 60)) + ':' + doisDigitos(s % 60);
+  }, 500);
+
+  /* ---- tela cheia ---- */
+  function telaCheia(){
+    if (document.fullscreenElement) document.exitFullscreen();
+    else if (document.documentElement.requestFullscreen) document.documentElement.requestFullscreen();
+  }
+
+  /* ---- teclado ---- */
+  document.addEventListener('keydown', function(e){
+    if (e.metaKey || e.ctrlKey || e.altKey) return;
+    var k = e.key;
+    if (k === 'ArrowRight' || k === 'ArrowDown' || k === ' ' || k === 'PageDown' || k === 'Enter'){ e.preventDefault(); proximo(); }
+    else if (k === 'ArrowLeft' || k === 'ArrowUp' || k === 'PageUp'){ e.preventDefault(); anterior(); }
+    else if (k === 'Home'){ e.preventDefault(); ir(0); }
+    else if (k === 'End'){ e.preventDefault(); ir(slides.length - 1); }
+    else if (k === 'f' || k === 'F'){ telaCheia(); }
+    else if (k === 'g' || k === 'G' || k === 'o' || k === 'O'){ alternarGrade(); }
+    else if (k === 'b' || k === 'B' || k === '.'){ apagado.hidden = !apagado.hidden; }
+    else if (k === 'm' || k === 'M'){ alternarSom(); }
+    else if (k === 't' || k === 'T'){ cronometro.hidden = !cronometro.hidden; }
+    else if (k === 'r' || k === 'R'){ inicio = Date.now(); }
+    else if (k === '?' || k === 'h' || k === 'H'){ ajuda.hidden = !ajuda.hidden; }
+    else if (k === 'Escape'){ fecharGrade(); ajuda.hidden = true; apagado.hidden = true; }
+  });
+
+  /* ---- clique e toque ---- */
+  document.getElementById('deck').addEventListener('click', function(e){
+    if (e.target.closest('a, button, iframe')) return;
+    if (!grade.hidden || !ajuda.hidden) return;
+    proximo();
+  });
+  apagado.addEventListener('click', function(){ apagado.hidden = true; });
+  ajuda.addEventListener('click', function(e){ if (e.target === ajuda) ajuda.hidden = true; });
+
+  var toqueX = null;
+  document.addEventListener('touchstart', function(e){ toqueX = e.changedTouches[0].clientX; }, {passive:true});
+  document.addEventListener('touchend', function(e){
+    if (toqueX === null) return;
+    var d = e.changedTouches[0].clientX - toqueX;
+    if (Math.abs(d) > 60) { d < 0 ? proximo() : anterior(); }
+    toqueX = null;
+  }, {passive:true});
+
+  document.getElementById('btn-proximo').addEventListener('click', proximo);
+  document.getElementById('btn-anterior').addEventListener('click', anterior);
+  document.getElementById('btn-grade').addEventListener('click', alternarGrade);
+  document.getElementById('btn-tela').addEventListener('click', telaCheia);
+  document.getElementById('btn-ajuda').addEventListener('click', function(){ ajuda.hidden = !ajuda.hidden; });
+
+  /* ---- esconde os controles quando o mouse para ---- */
+  var timer;
+  function acordar(){
+    document.body.classList.remove('oculto');
+    clearTimeout(timer);
+    timer = setTimeout(function(){ document.body.classList.add('oculto'); }, 2600);
+  }
+  ['mousemove','mousedown','keydown','touchstart'].forEach(function(ev){
+    document.addEventListener(ev, acordar, {passive:true});
+  });
+  acordar();
+
+  /* ---- posição inicial vinda da URL (#7) ---- */
+  var inicial = parseInt((location.hash || '').replace('#',''), 10);
+  ir(isNaN(inicial) ? 0 : inicial - 1, false);
+})();
+</script>
+</body>
+</html>
