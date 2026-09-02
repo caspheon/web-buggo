@@ -93,7 +93,7 @@ body{
            frase assentar (.06 + .70 de duração + .10 de silêncio)
 
    Fora dessa grade só ficam os tempos que dependem de outra
-   animação terminar (o ponto e o texto do slide 12 esperam a
+   animação terminar (o ponto e o texto do slide 13 esperam a
    linha chegar) e as camadas de leitura do slide de mercado.
    ============================================================ */
 [data-anim]{opacity:0}
@@ -263,7 +263,7 @@ body{
 }
 .celular img,.celular video{display:block;width:100%;height:auto;border-radius:33px;background:#07060c}
 
-/* ---------- 3 a 6. problemas ---------- */
+/* ---------- 4 a 7. problemas ---------- */
 .problema{height:100%;display:grid;place-items:center;padding:60px 300px}
 .problema p{
   font-family:var(--display);font-weight:900;font-size:78px;line-height:1.18;
@@ -271,7 +271,7 @@ body{
 }
 .problema .acento{display:block}
 
-/* ---------- 7, 10, 15. citações com foto ---------- */
+/* ---------- 3, 8, 11, 16. foto na coluna da esquerda ---------- */
 .citacao{height:100%;display:grid;grid-template-columns:46% 54%;align-items:center}
 .citacao figure{margin:0;height:100%;overflow:hidden;position:relative}
 .citacao img{display:block;width:100%;height:100%;object-fit:cover}
@@ -285,18 +285,25 @@ body{
   font-family:var(--texto);font-weight:700;font-style:italic;font-size:44px;line-height:1.32;
   text-align:center;text-wrap:balance;color:var(--branco);
 }
+/* o letreiro do slide 3 divide a coluna com as citações, mas não é uma
+   citação: vai na fonte de display, como os outros títulos do deck */
+.titulo-foto{
+  margin:0;padding:0 110px;
+  font-family:var(--display);font-weight:900;font-size:72px;line-height:1.12;
+  letter-spacing:-.02em;text-align:center;text-wrap:balance;color:var(--branco);
+}
 
-/* ---------- 8. a descoberta ---------- */
+/* ---------- 9. a descoberta ---------- */
 .revelacao{height:100%;display:grid;place-content:center;justify-items:center;gap:26px;padding:60px 0}
 .revelacao .um{font-family:var(--display);font-weight:900;font-size:118px;line-height:1;letter-spacing:-.03em;color:var(--branco)}
 .revelacao .dois{font-family:var(--display);font-weight:900;font-size:136px;line-height:1;letter-spacing:-.03em;color:var(--lavanda)}
 
-/* ---------- 9. duolingo ---------- */
+/* ---------- 10. duolingo ---------- */
 .duo{height:100%;display:grid;place-content:center;justify-items:center;gap:56px;padding:60px 200px}
 .duo h2{font-family:var(--display);font-weight:900;font-size:132px;line-height:1;letter-spacing:-.03em;color:var(--lavanda)}
 .duo p{font-family:var(--display);font-weight:900;font-size:60px;line-height:1.2;text-align:center;text-wrap:balance;color:var(--branco)}
 
-/* ---------- 11. a solução ---------- */
+/* ---------- 12. a solução ---------- */
 .solucao{height:100%;display:grid;grid-template-columns:1fr 520px;align-items:center;gap:60px;padding:0 140px}
 .solucao h2{
   font-family:var(--display);font-weight:900;font-size:70px;letter-spacing:-.01em;
@@ -308,7 +315,7 @@ body{
 .pilar span{font-family:var(--display);font-weight:900;font-size:48px;letter-spacing:-.01em;color:var(--branco)}
 .mascote{width:100%;height:auto;display:block;filter:drop-shadow(0 30px 70px rgba(135,51,255,.45))}
 
-/* ---------- 12. outro aplicativo ---------- */
+/* ---------- 13. outro aplicativo ---------- */
 .app{height:100%;display:grid;grid-template-columns:340px 190px 1fr;align-items:center;padding:0 150px 0 190px}
 .app .celular{width:340px}
 .conector{width:190px;height:170px;overflow:visible}
@@ -317,7 +324,7 @@ body{
   letter-spacing:-.02em;text-align:center;color:var(--branco);
 }
 
-/* ---------- 13. mercado ---------- */
+/* ---------- 14. mercado ---------- */
 .mercado{
   height:100%;display:grid;
   grid-template-columns:1fr 1.12fr;grid-template-rows:1fr auto;
@@ -334,7 +341,7 @@ body{
 .rodape{grid-column:1 / -1;display:grid;gap:12px;justify-items:center;text-align:center}
 .fontes{font-family:var(--texto);font-size:17px;line-height:1.4;color:var(--cinza)}
 
-/* ---------- 14. o plano ---------- */
+/* ---------- 15. o plano ---------- */
 .plano{height:100%;display:grid;place-content:center;justify-items:center;gap:84px;padding:60px 170px}
 .plano h2{font-family:var(--display);font-weight:900;font-size:118px;line-height:1;letter-spacing:-.03em;color:var(--lavanda)}
 .plano h2 small{font-family:var(--display);font-weight:700;font-size:.34em;letter-spacing:-.01em;color:var(--cinza-forte)}
@@ -345,7 +352,7 @@ body{
 }
 .plano li::before{content:"";width:14px;height:14px;border-radius:50%;background:var(--lavanda);transform:translateY(-9px);justify-self:center}
 
-/* ---------- 16. obrigado ---------- */
+/* ---------- 17. obrigado ---------- */
 .obrigado{height:100%;display:grid;place-content:center;justify-items:center;gap:34px;padding:40px 0}
 .obrigado h2{font-family:var(--display);font-weight:900;font-size:104px;line-height:1;letter-spacing:-.03em;color:var(--branco);margin-bottom:14px}
 .obrigado a.email{font-family:var(--texto);font-size:34px;color:var(--lavanda);text-decoration:none}
@@ -477,35 +484,43 @@ kbd{
       </div>
     </section>
 
-    <!-- 3 · problema -->
+    <!-- 3 · quem é o Felipe -->
+    <section class="slide bg-foto" data-titulo="A história do Felipe">
+      <div class="citacao">
+        <figure data-anim="surge" style="--d:.06s"><img src="assets/felipe-sorrindo.jpg" alt="Felipe sorrindo e fazendo sinal de positivo num escritório de tecnologia"></figure>
+        <p class="titulo-foto" data-anim="sobe" style="--d:.34s">A história do <span class="acento">Felipe</span></p>
+      </div>
+    </section>
+
+    <!-- 4 · problema -->
     <section class="slide bg-problema" data-titulo="YouTube">
       <div class="problema">
         <p data-anim="sobe" style="--d:.06s">Abri o YouTube era vídeo de 8 horas resolvi <span class="acento" data-anim="soco" style="--d:.86s">FECHAR!</span></p>
       </div>
     </section>
 
-    <!-- 4 · problema -->
+    <!-- 5 · problema -->
     <section class="slide bg-problema" data-titulo="Curso em inglês">
       <div class="problema">
         <p data-anim="sobe" style="--d:.06s">Tentei um curso online mas era em inglês então <span class="acento" data-anim="soco" style="--d:.86s">DESISTI!</span></p>
       </div>
     </section>
 
-    <!-- 5 · problema -->
+    <!-- 6 · problema -->
     <section class="slide bg-problema" data-titulo="Livro">
       <div class="problema">
         <p data-anim="sobe" style="--d:.06s">Abri um livro logo na página 3 e eu <span class="acento" data-anim="soco" style="--d:.86s">FECHEI!</span></p>
       </div>
     </section>
 
-    <!-- 6 · problema -->
+    <!-- 7 · problema -->
     <section class="slide bg-problema" data-titulo="Entrevista">
       <div class="problema">
         <p data-anim="sobe" style="--d:.06s">Fui até a entrevista de estágio sem saber nada e saí <span class="acento" data-anim="soco" style="--d:.86s">ENVERGONHADO!</span></p>
       </div>
     </section>
 
-    <!-- 7 · citação -->
+    <!-- 8 · citação -->
     <section class="slide bg-foto" data-titulo="Falta de caminho">
       <div class="citacao">
         <figure data-anim="surge" style="--d:.06s"><img src="assets/foto-frustrado.jpg" alt="Jovem cansado diante do notebook, cercado de papéis e copos de café"></figure>
@@ -513,7 +528,7 @@ kbd{
       </div>
     </section>
 
-    <!-- 8 · a descoberta -->
+    <!-- 9 · a descoberta -->
     <section class="slide bg-revelacao" data-titulo="A Descoberta">
       <div class="revelacao">
         <span class="um" data-anim="sobe" style="--d:.06s">A</span>
@@ -521,7 +536,7 @@ kbd{
       </div>
     </section>
 
-    <!-- 9 · duolingo -->
+    <!-- 10 · duolingo -->
     <section class="slide bg-duo" data-titulo="Duolingo">
       <div class="duo">
         <h2 data-anim="foco" style="--d:.06s">Duolingo</h2>
@@ -529,7 +544,7 @@ kbd{
       </div>
     </section>
 
-    <!-- 10 · citação -->
+    <!-- 11 · citação -->
     <section class="slide bg-foto bg-foto--roxo" data-titulo="Por que não?">
       <div class="citacao">
         <figure data-anim="surge" style="--d:.06s"><img src="assets/foto-descoberta.jpg" alt="Jovem surpreso olhando para o celular na sala"></figure>
@@ -537,7 +552,7 @@ kbd{
       </div>
     </section>
 
-    <!-- 11 · a solução -->
+    <!-- 12 · a solução -->
     <section class="slide bg-solucao" data-titulo="A solução: Buggo">
       <div class="solucao">
         <div>
@@ -552,7 +567,7 @@ kbd{
       </div>
     </section>
 
-    <!-- 12 · outro aplicativo -->
+    <!-- 13 · outro aplicativo -->
     <section class="slide bg-app" data-titulo="Outro aplicativo">
       <div class="app">
         <div class="celular" data-anim="sobe" style="--d:.06s">
@@ -568,7 +583,7 @@ kbd{
       </div>
     </section>
 
-    <!-- 13 · mercado -->
+    <!-- 14 · mercado -->
     <section class="slide bg-mercado" data-titulo="Mercado">
       <div class="mercado">
         <div class="numeros">
@@ -628,7 +643,7 @@ kbd{
       </div>
     </section>
 
-    <!-- 14 · o plano -->
+    <!-- 15 · o plano -->
     <section class="slide bg-preco" data-titulo="R$ 14,90">
       <div class="plano">
         <h2 data-anim="foco" style="--d:.06s">R$ 14,90<small>/mês</small></h2>
@@ -643,7 +658,7 @@ kbd{
       </div>
     </section>
 
-    <!-- 15 · citação final -->
+    <!-- 16 · citação final -->
     <section class="slide bg-foto bg-foto--magenta" data-titulo="Se eu consegui">
       <div class="citacao">
         <figure data-anim="surge" style="--d:.06s"><img src="assets/foto-certificado.jpg" alt="Jovem sorrindo e apontando para o certificado de conclusão de programador"></figure>
@@ -651,7 +666,7 @@ kbd{
       </div>
     </section>
 
-    <!-- 16 · obrigado -->
+    <!-- 17 · obrigado -->
     <section class="slide bg-obrigado" data-titulo="Obrigado">
       <div class="obrigado">
         <h2 data-anim="foco" style="--d:.06s">Obrigado</h2>
@@ -686,7 +701,7 @@ kbd{
 
 <div id="controles">
   <button id="btn-anterior" type="button" aria-label="Slide anterior"><svg viewBox="0 0 24 24"><path d="M15 5 8 12l7 7"></path></svg></button>
-  <span id="contador">01 / 16</span>
+  <span id="contador">01 / 17</span>
   <button id="btn-proximo" type="button" aria-label="Próximo slide"><svg viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"></path></svg></button>
   <button id="btn-grade" type="button" aria-label="Ver todos os slides"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"></rect><rect x="14" y="3" width="7" height="7" rx="1"></rect><rect x="3" y="14" width="7" height="7" rx="1"></rect><rect x="14" y="14" width="7" height="7" rx="1"></rect></svg></button>
   <button id="btn-tela" type="button" aria-label="Tela cheia"><svg viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"></path></svg></button>
