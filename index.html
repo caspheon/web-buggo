@@ -32,6 +32,15 @@
 
   --display:"Poppins","Segoe UI",system-ui,sans-serif;
   --texto:"Roboto","Segoe UI",system-ui,sans-serif;
+
+  /* ritmo das entradas: três durações e quatro curvas, nada solto */
+  --dur-rapida:.52s;
+  --dur-base:.70s;
+  --dur-lenta:.90s;
+  --curva:cubic-bezier(.2,.75,.25,1);
+  --curva-firme:cubic-bezier(.25,.9,.3,1);
+  --curva-elastica:cubic-bezier(.2,1.35,.4,1);
+  --curva-soco:cubic-bezier(.2,1.45,.4,1);
 }
 
 *{box-sizing:border-box}
@@ -72,22 +81,36 @@ body{
    conteúdo, que monta em ordem. Cada elemento declara o tipo de
    entrada em data-anim e o atraso em --d. O estado final fica
    preso por animation-fill-mode: both, então nada volta a sumir.
+
+   Todo --d sai de uma grade única, para o deck ter um pulso só:
+
+     .06s  primeiro elemento de qualquer slide
+     .34s  segundo bloco
+     .62s  terceiro bloco
+     +.12s passo entre irmãos de um grupo curto (2 a 3 itens)
+     +.08s passo entre irmãos de uma lista longa (4 ou mais)
+     .86s  remate — o grito dos slides de problema, depois de a
+           frase assentar (.06 + .70 de duração + .10 de silêncio)
+
+   Fora dessa grade só ficam os tempos que dependem de outra
+   animação terminar (o ponto e o texto do slide 12 esperam a
+   linha chegar) e as camadas de leitura do slide de mercado.
    ============================================================ */
 [data-anim]{opacity:0}
 .slide.is-active [data-anim]{
-  animation-duration:.7s;
-  animation-timing-function:cubic-bezier(.2,.75,.25,1);
+  animation-duration:var(--dur-base);
+  animation-timing-function:var(--curva);
   animation-fill-mode:both;
   animation-delay:var(--d,0s);
 }
 .slide.is-active [data-anim="sobe"]   {animation-name:sobe}
-.slide.is-active [data-anim="surge"]  {animation-name:surge;animation-duration:.9s}
-.slide.is-active [data-anim="foco"]   {animation-name:foco;animation-duration:.9s}
-.slide.is-active [data-anim="soco"]   {animation-name:soco;animation-duration:.52s;animation-timing-function:cubic-bezier(.2,1.45,.4,1)}
-.slide.is-active [data-anim="entra"]  {animation-name:entra;animation-duration:.9s}
-.slide.is-active [data-anim="pulo"]   {animation-name:pulo;animation-duration:.8s;animation-timing-function:cubic-bezier(.2,1.35,.4,1)}
-.slide.is-active [data-anim="cresce"] {animation-name:cresce;animation-duration:.85s;animation-timing-function:cubic-bezier(.25,.9,.3,1)}
-.slide.is-active [data-anim="desenha"]{animation-name:desenha;animation-duration:.6s;animation-timing-function:ease-in-out}
+.slide.is-active [data-anim="desenha"]{animation-name:desenha;animation-timing-function:ease-in-out}
+.slide.is-active [data-anim="pulo"]   {animation-name:pulo;   animation-timing-function:var(--curva-elastica)}
+.slide.is-active [data-anim="soco"]   {animation-name:soco;   animation-duration:var(--dur-rapida);animation-timing-function:var(--curva-soco)}
+.slide.is-active [data-anim="surge"]  {animation-name:surge;  animation-duration:var(--dur-lenta)}
+.slide.is-active [data-anim="foco"]   {animation-name:foco;   animation-duration:var(--dur-lenta)}
+.slide.is-active [data-anim="entra"]  {animation-name:entra;  animation-duration:var(--dur-lenta)}
+.slide.is-active [data-anim="cresce"] {animation-name:cresce; animation-duration:var(--dur-lenta);animation-timing-function:var(--curva-firme)}
 
 @keyframes sobe   {from{opacity:0;transform:translateY(30px)}                    to{opacity:1;transform:none}}
 @keyframes surge  {from{opacity:0}                                              to{opacity:1}}
@@ -219,7 +242,7 @@ body{
 
 /* ---------- 2. capa ---------- */
 .capa{height:100%;display:grid;grid-template-columns:1fr 1fr;align-items:center}
-.capa-texto{padding-left:150px}
+.capa-texto{padding:0 40px 0 150px}
 .capa h1{
   font-family:var(--display);font-weight:900;font-size:152px;line-height:.9;
   letter-spacing:-.045em;color:var(--branco);
@@ -241,7 +264,7 @@ body{
 .celular img,.celular video{display:block;width:100%;height:auto;border-radius:33px;background:#07060c}
 
 /* ---------- 3 a 6. problemas ---------- */
-.problema{height:100%;display:grid;place-items:center;padding:0 300px 60px}
+.problema{height:100%;display:grid;place-items:center;padding:60px 300px}
 .problema p{
   font-family:var(--display);font-weight:900;font-size:78px;line-height:1.18;
   letter-spacing:-.02em;text-align:center;text-wrap:balance;color:var(--branco);
@@ -255,26 +278,26 @@ body{
 /* dissolve a borda dura entre a foto e o preto do slide */
 .citacao figure::after{
   content:"";position:absolute;inset:0;pointer-events:none;
-  background:linear-gradient(90deg, rgba(0,0,0,0) 70%, rgba(0,0,0,.85) 100%);
+  background:linear-gradient(90deg, rgba(0,0,0,0) 52%, rgba(0,0,0,.6) 80%, #000 100%);
 }
 .citacao blockquote{
-  margin:0;padding:0 130px 0 90px;
+  margin:0;padding:0 110px;
   font-family:var(--texto);font-weight:700;font-style:italic;font-size:44px;line-height:1.32;
   text-align:center;text-wrap:balance;color:var(--branco);
 }
 
 /* ---------- 8. a descoberta ---------- */
-.revelacao{height:100%;display:grid;place-content:center;justify-items:center;gap:26px;padding-bottom:70px}
-.revelacao .um{font-family:var(--display);font-weight:900;font-size:118px;line-height:1;color:var(--branco)}
-.revelacao .dois{font-family:var(--display);font-weight:900;font-size:136px;line-height:1;letter-spacing:-.02em;color:var(--lavanda)}
+.revelacao{height:100%;display:grid;place-content:center;justify-items:center;gap:26px;padding:60px 0}
+.revelacao .um{font-family:var(--display);font-weight:900;font-size:118px;line-height:1;letter-spacing:-.03em;color:var(--branco)}
+.revelacao .dois{font-family:var(--display);font-weight:900;font-size:136px;line-height:1;letter-spacing:-.03em;color:var(--lavanda)}
 
 /* ---------- 9. duolingo ---------- */
-.duo{height:100%;display:grid;place-content:center;justify-items:center;gap:56px;padding:0 260px}
+.duo{height:100%;display:grid;place-content:center;justify-items:center;gap:56px;padding:60px 200px}
 .duo h2{font-family:var(--display);font-weight:900;font-size:132px;line-height:1;letter-spacing:-.03em;color:var(--lavanda)}
 .duo p{font-family:var(--display);font-weight:900;font-size:60px;line-height:1.2;text-align:center;text-wrap:balance;color:var(--branco)}
 
 /* ---------- 11. a solução ---------- */
-.solucao{height:100%;display:grid;grid-template-columns:1fr 520px;align-items:center;gap:60px;padding:0 150px 0 130px}
+.solucao{height:100%;display:grid;grid-template-columns:1fr 520px;align-items:center;gap:60px;padding:0 140px}
 .solucao h2{
   font-family:var(--display);font-weight:900;font-size:70px;letter-spacing:-.01em;
   color:var(--lavanda);margin-bottom:78px;
@@ -286,7 +309,7 @@ body{
 .mascote{width:100%;height:auto;display:block;filter:drop-shadow(0 30px 70px rgba(135,51,255,.45))}
 
 /* ---------- 12. outro aplicativo ---------- */
-.app{height:100%;display:grid;grid-template-columns:430px 190px 1fr;align-items:center;padding:0 150px 0 190px}
+.app{height:100%;display:grid;grid-template-columns:340px 190px 1fr;align-items:center;padding:0 150px 0 190px}
 .app .celular{width:340px}
 .conector{width:190px;height:170px;overflow:visible}
 .app h2{
@@ -299,13 +322,13 @@ body{
   height:100%;display:grid;
   grid-template-columns:1fr 1.12fr;grid-template-rows:1fr auto;
   align-items:center;gap:34px 64px;
-  padding:56px 120px 60px 170px;
+  padding:56px 140px;
 }
 .numeros{display:grid;gap:48px;justify-items:center}
 .numero b{display:block;font-family:var(--display);font-weight:900;font-size:88px;line-height:1;letter-spacing:-.03em;color:var(--lavanda);text-align:center;font-variant-numeric:tabular-nums}
 .numero span{display:block;margin:8px auto 0;max-width:19ch;font-family:var(--texto);font-size:27px;line-height:1.3;color:var(--branco);text-align:center}
 .grafico h3{font-family:var(--display);font-weight:900;font-size:38px;line-height:1.15;letter-spacing:-.01em;color:var(--branco);text-align:center;margin-bottom:22px;text-wrap:balance}
-.grafico svg{display:block;width:100%;height:auto}
+.grafico svg{display:block;width:100%;height:auto;font-family:var(--texto)}
 .grafico path{transform-box:fill-box;transform-origin:bottom}
 .conector polyline{stroke-dasharray:330}
 .rodape{grid-column:1 / -1;display:grid;gap:12px;justify-items:center;text-align:center}
@@ -314,9 +337,9 @@ body{
 .fontes{font-family:var(--texto);font-size:17px;line-height:1.4;color:var(--cinza)}
 
 /* ---------- 14. o plano ---------- */
-.plano{height:100%;display:grid;place-content:center;justify-items:center;gap:84px;padding:0 170px}
-.plano h2{font-family:var(--texto);font-weight:900;font-size:118px;line-height:1;letter-spacing:-.02em;color:var(--lavanda)}
-.plano h2 small{font-family:var(--texto);font-weight:700;font-size:.34em;letter-spacing:0;color:var(--cinza-forte)}
+.plano{height:100%;display:grid;place-content:center;justify-items:center;gap:84px;padding:60px 170px}
+.plano h2{font-family:var(--display);font-weight:900;font-size:118px;line-height:1;letter-spacing:-.03em;color:var(--lavanda)}
+.plano h2 small{font-family:var(--display);font-weight:700;font-size:.34em;letter-spacing:-.01em;color:var(--cinza-forte)}
 .plano ul{display:grid;grid-template-columns:1fr 1fr;gap:30px 76px}
 .plano li{
   display:grid;grid-template-columns:30px 1fr;align-items:baseline;gap:18px;
@@ -325,15 +348,15 @@ body{
 .plano li::before{content:"";width:14px;height:14px;border-radius:50%;background:var(--lavanda);transform:translateY(-9px);justify-self:center}
 
 /* ---------- 16. obrigado ---------- */
-.obrigado{height:100%;display:grid;place-content:center;justify-items:center;gap:34px;padding:40px 0 30px}
+.obrigado{height:100%;display:grid;place-content:center;justify-items:center;gap:34px;padding:40px 0}
 .obrigado h2{font-family:var(--display);font-weight:900;font-size:104px;line-height:1;letter-spacing:-.03em;color:var(--branco);margin-bottom:14px}
 .obrigado a.email{font-family:var(--texto);font-size:34px;color:var(--lavanda);text-decoration:none}
 .obrigado a.email:hover{text-decoration:underline}
 .obrigado .linha{font-family:var(--texto);font-size:34px;color:var(--branco)}
 .obrigado .linha a{color:inherit;text-decoration:none}  /* o Safari transforma o telefone em link tel: e o pinta de azul */
 .redes{display:flex;gap:22px}
-.redes a{display:block;width:66px;height:66px;color:var(--roxo);transition:color .2s ease,transform .2s ease}
-.redes a:hover,.redes a:focus-visible{color:var(--lavanda);transform:translateY(-3px)}
+.redes a{display:block;width:66px;height:66px;color:var(--lavanda);transition:color .2s ease,transform .2s ease}
+.redes a:hover,.redes a:focus-visible{color:var(--branco);transform:translateY(-3px)}
 .redes svg{width:100%;height:100%;display:block}
 .qr-link{display:grid;justify-items:center;gap:12px;text-decoration:none}
 .qr{display:block;width:190px;height:190px;border-radius:4px;background:#fff}
@@ -446,12 +469,12 @@ kbd{
     <section class="slide bg-hero" data-titulo="Capa">
       <div class="capa">
         <div class="capa-texto">
-          <h1 data-anim="foco" style="--d:.05s">Buggo</h1>
-          <p data-anim="sobe" style="--d:.38s">Aprenda a programar<br>brincando</p>
+          <h1 data-anim="foco" style="--d:.06s">Buggo</h1>
+          <p data-anim="sobe" style="--d:.34s">Aprenda a programar<br>brincando</p>
         </div>
         <div class="celulares">
-          <div class="celular celular--tras" data-anim="entra" style="--d:.30s"><img src="assets/tela-home-python.jpg" alt="Tela inicial do Buggo com a trilha de Python, XP e moedas"></div>
-          <div class="celular celular--frente" data-anim="entra" style="--d:.46s"><img src="assets/tela-licao.jpg" alt="Lição do Buggo: completar o código de uma função em Python"></div>
+          <div class="celular celular--tras" data-anim="entra" style="--d:.62s"><img src="assets/tela-home-python.jpg" alt="Tela inicial do Buggo com a trilha de Python, XP e moedas"></div>
+          <div class="celular celular--frente" data-anim="entra" style="--d:.74s"><img src="assets/tela-licao.jpg" alt="Lição do Buggo: completar o código de uma função em Python"></div>
         </div>
       </div>
     </section>
@@ -459,60 +482,60 @@ kbd{
     <!-- 3 · problema -->
     <section class="slide bg-problema" data-titulo="YouTube">
       <div class="problema">
-        <p data-anim="sobe" style="--d:.05s">Abri o YouTube era vídeo de 8 horas resolvi <span class="acento" data-anim="soco" style="--d:.80s">FECHAR!</span></p>
+        <p data-anim="sobe" style="--d:.06s">Abri o YouTube era vídeo de 8 horas resolvi <span class="acento" data-anim="soco" style="--d:.86s">FECHAR!</span></p>
       </div>
     </section>
 
     <!-- 4 · problema -->
     <section class="slide bg-problema" data-titulo="Curso em inglês">
       <div class="problema">
-        <p data-anim="sobe" style="--d:.05s">Tentei um curso online mas era em inglês então <span class="acento" data-anim="soco" style="--d:.80s">DESISTI!</span></p>
+        <p data-anim="sobe" style="--d:.06s">Tentei um curso online mas era em inglês então <span class="acento" data-anim="soco" style="--d:.86s">DESISTI!</span></p>
       </div>
     </section>
 
     <!-- 5 · problema -->
     <section class="slide bg-problema" data-titulo="Livro">
       <div class="problema">
-        <p data-anim="sobe" style="--d:.05s">Abri um livro logo na página 3 e eu <span class="acento" data-anim="soco" style="--d:.80s">FECHEI!</span></p>
+        <p data-anim="sobe" style="--d:.06s">Abri um livro logo na página 3 e eu <span class="acento" data-anim="soco" style="--d:.86s">FECHEI!</span></p>
       </div>
     </section>
 
     <!-- 6 · problema -->
     <section class="slide bg-problema" data-titulo="Entrevista">
       <div class="problema">
-        <p data-anim="sobe" style="--d:.05s">Fui até a entrevista de estágio sem saber nada e saí <span class="acento" data-anim="soco" style="--d:.80s">ENVERGONHADO!</span></p>
+        <p data-anim="sobe" style="--d:.06s">Fui até a entrevista de estágio sem saber nada e saí <span class="acento" data-anim="soco" style="--d:.86s">ENVERGONHADO!</span></p>
       </div>
     </section>
 
     <!-- 7 · citação -->
     <section class="slide bg-foto" data-titulo="Falta de caminho">
       <div class="citacao">
-        <figure data-anim="surge"><img src="assets/foto-frustrado.jpg" alt="Jovem cansado diante do notebook, cercado de papéis e copos de café"></figure>
-        <blockquote data-anim="sobe" style="--d:.38s">“Não era falta de vontade. Era falta de caminho.”</blockquote>
+        <figure data-anim="surge" style="--d:.06s"><img src="assets/foto-frustrado.jpg" alt="Jovem cansado diante do notebook, cercado de papéis e copos de café"></figure>
+        <blockquote data-anim="sobe" style="--d:.34s">“Não era falta de vontade. Era falta de caminho.”</blockquote>
       </div>
     </section>
 
     <!-- 8 · a descoberta -->
     <section class="slide bg-revelacao" data-titulo="A Descoberta">
       <div class="revelacao">
-        <span class="um" data-anim="sobe" style="--d:.10s">A</span>
-        <span class="dois" data-anim="foco" style="--d:.40s">Descoberta!</span>
+        <span class="um" data-anim="sobe" style="--d:.06s">A</span>
+        <span class="dois" data-anim="foco" style="--d:.34s">Descoberta!</span>
       </div>
     </section>
 
     <!-- 9 · duolingo -->
     <section class="slide bg-duo" data-titulo="Duolingo">
       <div class="duo">
-        <h2 data-anim="foco" style="--d:.05s">Duolingo</h2>
-        <p data-anim="sobe" style="--d:.45s">500M+ usuários aprendendo idiomas<br>5 minutos por dia sem sofrimento</p>
+        <h2 data-anim="foco" style="--d:.06s">Duolingo</h2>
+        <p data-anim="sobe" style="--d:.34s">+500 milhões de usuários aprendendo idiomas<br>5 minutos por dia, sem sofrimento</p>
       </div>
     </section>
 
     <!-- 10 · citação -->
     <section class="slide bg-foto bg-foto--roxo" data-titulo="Por que não?">
       <div class="citacao">
-        <figure data-anim="surge"><img src="assets/foto-descoberta.jpg" alt="Jovem surpreso olhando para o celular na sala"></figure>
-        <blockquote data-anim="sobe" style="--d:.38s">“Por que a programação não podia ser assim?”</blockquote>
+        <figure data-anim="surge" style="--d:.06s"><img src="assets/foto-descoberta.jpg" alt="Jovem surpreso olhando para o celular na sala"></figure>
+        <blockquote data-anim="sobe" style="--d:.34s">“Por que a programação não podia ser assim?”</blockquote>
       </div>
     </section>
 
@@ -520,30 +543,30 @@ kbd{
     <section class="slide bg-solucao" data-titulo="A solução: Buggo">
       <div class="solucao">
         <div>
-          <h2 data-anim="sobe" style="--d:.05s">A SOLUÇÃO: BUGGO</h2>
+          <h2 data-anim="sobe" style="--d:.06s">A SOLUÇÃO: BUGGO</h2>
           <ul class="pilares">
-            <li class="pilar" data-anim="sobe" style="--d:.30s"><img src="assets/ico-mobile.png" alt=""><span>Mobile First</span></li>
-            <li class="pilar" data-anim="sobe" style="--d:.42s"><img src="assets/ico-licoes.png" alt=""><span>Micro-lições</span></li>
-            <li class="pilar" data-anim="sobe" style="--d:.54s"><img src="assets/ico-trilha.png" alt=""><span>Trilha estruturada</span></li>
+            <li class="pilar" data-anim="sobe" style="--d:.34s"><img src="assets/ico-mobile.png" alt=""><span>Mobile First</span></li>
+            <li class="pilar" data-anim="sobe" style="--d:.46s"><img src="assets/ico-licoes.png" alt=""><span>Micro-lições</span></li>
+            <li class="pilar" data-anim="sobe" style="--d:.58s"><img src="assets/ico-trilha.png" alt=""><span>Trilha estruturada</span></li>
           </ul>
         </div>
-        <img class="mascote" data-anim="pulo" style="--d:.34s" src="assets/mascote.png" alt="Buggo, o mascote: um robô verde sobre um quadrado roxo com o símbolo &lt;/&gt;">
+        <img class="mascote" data-anim="pulo" style="--d:.70s" src="assets/mascote.png" alt="Buggo, o mascote: um robô verde sobre um quadrado roxo com o símbolo &lt;/&gt;">
       </div>
     </section>
 
     <!-- 12 · outro aplicativo -->
     <section class="slide bg-app" data-titulo="Outro aplicativo">
       <div class="app">
-        <div class="celular" data-anim="sobe" style="--d:.05s">
+        <div class="celular" data-anim="sobe" style="--d:.06s">
           <video src="assets/buggo-app.mp4" poster="assets/tela-home-logica.jpg"
                  muted loop playsinline preload="auto"
                  aria-label="Gravação de tela do Buggo em uso: trilha, lição e execução do código"></video>
         </div>
         <svg class="conector" viewBox="0 0 190 170" aria-hidden="true">
-          <polyline points="0,20 96,20 96,150 176,150" fill="none" stroke="#ffffff" stroke-width="3" data-anim="desenha" style="--d:.40s"></polyline>
-          <circle cx="180" cy="150" r="7" fill="#ffffff" data-anim="pulo" style="--d:1.0s"></circle>
+          <polyline points="0,20 96,20 96,150 176,150" fill="none" stroke="#ffffff" stroke-width="3" data-anim="desenha" style="--d:.34s"></polyline>
+          <circle cx="180" cy="150" r="7" fill="#ffffff" data-anim="pulo" style="--d:1.04s"></circle>
         </svg>
-        <h2 data-anim="sobe" style="--d:.90s">Outro aplicativo, mas o mesmo <span class="acento">objetivo!</span></h2>
+        <h2 data-anim="sobe" style="--d:1.10s">Outro aplicativo, mas o mesmo <span class="acento">objetivo!</span></h2>
       </div>
     </section>
 
@@ -551,46 +574,46 @@ kbd{
     <section class="slide bg-mercado" data-titulo="Mercado">
       <div class="mercado">
         <div class="numeros">
-          <div class="numero" data-anim="sobe" style="--d:.10s">
-            <b data-conta="106" data-sufixo=" mil" data-atraso=".28">106 mil</b>
+          <div class="numero" data-anim="sobe" style="--d:.06s">
+            <b data-conta="106" data-sufixo=" mil" data-atraso=".24">106 mil</b>
             <span>vagas de tecnologia sem candidato, por ano</span>
           </div>
-          <div class="numero" data-anim="sobe" style="--d:.24s">
-            <b data-conta="47.8" data-casas="1" data-sufixo=" mi" data-atraso=".42">47,8 mi</b>
+          <div class="numero" data-anim="sobe" style="--d:.18s">
+            <b data-conta="47.8" data-casas="1" data-sufixo=" mi" data-atraso=".36">47,8 mi</b>
             <span>jovens de 15 a 29 anos no Brasil</span>
           </div>
-          <div class="numero" data-anim="sobe" style="--d:.38s">
-            <b data-conta="41.6" data-casas="1" data-sufixo="%" data-atraso=".56">41,6%</b>
+          <div class="numero" data-anim="sobe" style="--d:.30s">
+            <b data-conta="41.6" data-casas="1" data-sufixo="%" data-atraso=".48">41,6%</b>
             <span>dos alunos de EAD abandonam o curso</span>
           </div>
         </div>
 
         <div class="grafico">
-          <h3 data-anim="sobe" style="--d:.15s">Profissionais de tecnologia por ano</h3>
+          <h3 data-anim="sobe" style="--d:.34s">Profissionais de tecnologia por ano</h3>
           <svg viewBox="108 54 408 308" role="img"
                aria-label="O mercado brasileiro demanda 159 mil profissionais de tecnologia por ano, mas o país forma 53 mil. Faltam 106 mil por ano.">
             <!-- barras -->
             <g>
-              <path data-anim="cresce" style="--d:.40s" fill="#ff31fa"
+              <path data-anim="cresce" style="--d:.54s" fill="#ff31fa"
                     d="M150,290 L150,73 Q150,69 154,69 L266,69 Q270,69 270,73 L270,290 Z"></path>
-              <path data-anim="cresce" style="--d:.55s" fill="#a3a7ff"
+              <path data-anim="cresce" style="--d:.66s" fill="#a3a7ff"
                     d="M360,290 L360,220 Q360,216 364,216 L476,216 Q480,216 480,220 L480,290 Z"></path>
             </g>
             <!-- o buraco entre o que o mercado pede e o que o país forma -->
-            <g data-anim="surge" style="--d:1.02s">
+            <g data-anim="surge" style="--d:1.04s">
               <line x1="150" y1="69" x2="510" y2="69" stroke="#a3a7ff" stroke-width="1.5" stroke-dasharray="7 7" opacity=".7"></line>
               <rect x="360" y="69" width="120" height="147" fill="rgba(255,49,250,.10)"
                     stroke="#ff31fa" stroke-width="1.5" stroke-dasharray="7 7" opacity=".85"></rect>
               <text x="420" y="130" text-anchor="middle" fill="#ff31fa"
-                    font-family="Roboto, sans-serif" font-size="20">faltam</text>
+                    font-size="20">faltam</text>
               <text x="420" y="162" text-anchor="middle" fill="#ff31fa"
-                    font-family="Roboto, sans-serif" font-size="29" font-weight="700"
+                    font-size="29" font-weight="700"
                     style="font-variant-numeric:tabular-nums">106 mil</text>
             </g>
             <line x1="120" y1="290" x2="510" y2="290" stroke="rgba(255,255,255,.45)" stroke-width="1.5"
-                  data-anim="surge" style="--d:.28s"></line>
+                  data-anim="surge" style="--d:.42s"></line>
             <!-- rótulos diretos: cada barra diz o que é e quanto vale -->
-            <g data-anim="surge" style="--d:.78s" font-family="Roboto, sans-serif" text-anchor="middle">
+            <g data-anim="surge" style="--d:.84s" text-anchor="middle">
               <text x="210" y="320" fill="#c8c3dd" font-size="20">Demanda do mercado</text>
               <text x="210" y="350" fill="#ffffff" font-size="27" font-weight="700"
                     style="font-variant-numeric:tabular-nums">159 mil</text>
@@ -602,7 +625,7 @@ kbd{
         </div>
 
         <div class="rodape">
-          <p class="benchmark" data-anim="surge" style="--d:1.20s"><b>70 milhões de downloads no Brasil</b>, seu segundo maior mercado depois dos EUA.</p>
+          <p class="benchmark" data-anim="surge" style="--d:1.22s"><b>70 milhões de downloads no Brasil</b>, seu segundo maior mercado depois dos EUA.</p>
           <p class="fontes" data-anim="surge" style="--d:1.32s">Fontes: Brasscom, Demanda de Talentos em TIC (2021–2025) · Semesp, Mapa do Ensino Superior 2026 · IBGE, 2025 · IstoÉ Dinheiro</p>
         </div>
       </div>
@@ -611,14 +634,14 @@ kbd{
     <!-- 14 · o plano -->
     <section class="slide bg-preco" data-titulo="R$ 14,90">
       <div class="plano">
-        <h2 data-anim="foco" style="--d:.05s">R$ 14,90<small>/mês</small></h2>
+        <h2 data-anim="foco" style="--d:.06s">R$ 14,90<small>/mês</small></h2>
         <ul>
-          <li data-anim="sobe" style="--d:.32s">Trilhas completas</li>
-          <li data-anim="sobe" style="--d:.38s">Sem anúncios</li>
-          <li data-anim="sobe" style="--d:.44s">Lições e desafios diários</li>
-          <li data-anim="sobe" style="--d:.50s">Acessos antecipados</li>
-          <li data-anim="sobe" style="--d:.56s">XP, moedas e streaks</li>
-          <li data-anim="sobe" style="--d:.62s">Conteúdos exclusivos</li>
+          <li data-anim="sobe" style="--d:.34s">Trilhas completas</li>
+          <li data-anim="sobe" style="--d:.42s">Sem anúncios</li>
+          <li data-anim="sobe" style="--d:.50s">Lições e desafios diários</li>
+          <li data-anim="sobe" style="--d:.58s">Acessos antecipados</li>
+          <li data-anim="sobe" style="--d:.66s">XP, moedas e streaks</li>
+          <li data-anim="sobe" style="--d:.74s">Conteúdos exclusivos</li>
         </ul>
       </div>
     </section>
@@ -626,17 +649,17 @@ kbd{
     <!-- 15 · citação final -->
     <section class="slide bg-foto bg-foto--magenta" data-titulo="Se eu consegui">
       <div class="citacao">
-        <figure data-anim="surge"><img src="assets/foto-certificado.jpg" alt="Jovem sorrindo e apontando para o certificado de conclusão de programador"></figure>
-        <blockquote data-anim="sobe" style="--d:.38s">“Se eu consegui, você também consegue!”</blockquote>
+        <figure data-anim="surge" style="--d:.06s"><img src="assets/foto-certificado.jpg" alt="Jovem sorrindo e apontando para o certificado de conclusão de programador"></figure>
+        <blockquote data-anim="sobe" style="--d:.34s">“Se eu consegui, você também consegue!”</blockquote>
       </div>
     </section>
 
     <!-- 16 · obrigado -->
     <section class="slide bg-obrigado" data-titulo="Obrigado">
       <div class="obrigado">
-        <h2 data-anim="foco" style="--d:.05s">Obrigado</h2>
-        <a class="email" data-anim="sobe" style="--d:.38s" href="mailto:contact@caspheon.com">contact@caspheon.com</a>
-        <p class="linha" data-anim="sobe" style="--d:.48s">+11 96501-5252 | caspheon.com</p>
+        <h2 data-anim="foco" style="--d:.06s">Obrigado</h2>
+        <a class="email" data-anim="sobe" style="--d:.34s" href="mailto:contact@caspheon.com">contact@caspheon.com</a>
+        <p class="linha" data-anim="sobe" style="--d:.46s">+55 11 96501-5252 · caspheon.com</p>
         <div class="redes" data-anim="sobe" style="--d:.58s">
           <a href="https://caspheon.com" target="_blank" rel="noopener" aria-label="Facebook">
             <svg viewBox="0 0 48 48"><rect x="2" y="2" width="44" height="44" rx="11" fill="none" stroke="currentColor" stroke-width="3"></rect><path d="M29 13.5h-3.6c-3.2 0-5.3 2.1-5.3 5.4V22h-3.3v4.7h3.3V38h4.9V26.7h3.6l.7-4.7h-4.3v-2.6c0-1.1.5-1.8 1.9-1.8H29v-4.1Z" fill="currentColor"></path></svg>
@@ -651,8 +674,8 @@ kbd{
             <svg viewBox="0 0 48 48"><rect x="2" y="2" width="44" height="44" rx="11" fill="none" stroke="currentColor" stroke-width="3"></rect><path d="M27.4 12.5h3.7c.4 2.8 2.2 4.8 4.9 5.1v3.8c-1.9 0-3.6-.6-5-1.7v7.1c0 4.1-3.2 7.3-7.1 7.3s-7.1-3.3-7.1-7.3 3.2-7.3 7.1-7.3c.4 0 .8 0 1.2.1v3.9c-.4-.1-.8-.2-1.2-.2-1.9 0-3.4 1.6-3.4 3.5s1.5 3.5 3.4 3.5 3.5-1.6 3.5-3.5V12.5Z" fill="currentColor"></path></svg>
           </a>
         </div>
-        <a class="qr-link" href="https://play.google.com/store/apps/details?id=com.buggo.app" target="_blank" rel="noopener" data-anim="pulo" style="--d:.72s">
-          <svg class="qr" viewBox="0 0 43 43" role="img" aria-label="QR code para baixar o Buggo na Play Store" data-anim="pulo" style="--d:.72s" shape-rendering="crispEdges"><rect width="43" height="43" fill="#ffffff"></rect><path d="M3 3h7v1h-7zM12 3h3v1h-3zM17 3h1v1h-1zM19 3h1v1h-1zM21 3h1v1h-1zM23 3h4v1h-4zM28 3h4v1h-4zM33 3h7v1h-7zM3 4h1v1h-1zM9 4h1v1h-1zM12 4h2v1h-2zM21 4h3v1h-3zM28 4h1v1h-1zM31 4h1v1h-1zM33 4h1v1h-1zM39 4h1v1h-1zM3 5h1v1h-1zM5 5h3v1h-3zM9 5h1v1h-1zM11 5h6v1h-6zM18 5h3v1h-3zM24 5h1v1h-1zM26 5h1v1h-1zM29 5h1v1h-1zM33 5h1v1h-1zM35 5h3v1h-3zM39 5h1v1h-1zM3 6h1v1h-1zM5 6h3v1h-3zM9 6h1v1h-1zM12 6h2v1h-2zM15 6h1v1h-1zM17 6h2v1h-2zM22 6h1v1h-1zM25 6h5v1h-5zM31 6h1v1h-1zM33 6h1v1h-1zM35 6h3v1h-3zM39 6h1v1h-1zM3 7h1v1h-1zM5 7h3v1h-3zM9 7h1v1h-1zM11 7h4v1h-4zM16 7h2v1h-2zM24 7h1v1h-1zM26 7h1v1h-1zM28 7h1v1h-1zM30 7h1v1h-1zM33 7h1v1h-1zM35 7h3v1h-3zM39 7h1v1h-1zM3 8h1v1h-1zM9 8h1v1h-1zM11 8h2v1h-2zM15 8h2v1h-2zM20 8h6v1h-6zM27 8h1v1h-1zM31 8h1v1h-1zM33 8h1v1h-1zM39 8h1v1h-1zM3 9h7v1h-7zM11 9h1v1h-1zM13 9h1v1h-1zM15 9h1v1h-1zM17 9h1v1h-1zM19 9h1v1h-1zM21 9h1v1h-1zM23 9h1v1h-1zM25 9h1v1h-1zM27 9h1v1h-1zM29 9h1v1h-1zM31 9h1v1h-1zM33 9h7v1h-7zM13 10h1v1h-1zM16 10h2v1h-2zM19 10h4v1h-4zM24 10h1v1h-1zM26 10h2v1h-2zM29 10h1v1h-1zM4 11h1v1h-1zM7 11h1v1h-1zM9 11h1v1h-1zM11 11h3v1h-3zM15 11h3v1h-3zM19 11h1v1h-1zM21 11h7v1h-7zM30 11h1v1h-1zM32 11h1v1h-1zM34 11h2v1h-2zM37 11h1v1h-1zM5 12h2v1h-2zM8 12h1v1h-1zM11 12h1v1h-1zM13 12h1v1h-1zM16 12h3v1h-3zM20 12h1v1h-1zM23 12h1v1h-1zM25 12h2v1h-2zM29 12h3v1h-3zM34 12h4v1h-4zM3 13h1v1h-1zM6 13h2v1h-2zM9 13h1v1h-1zM12 13h2v1h-2zM15 13h1v1h-1zM17 13h2v1h-2zM21 13h2v1h-2zM25 13h2v1h-2zM28 13h3v1h-3zM32 13h1v1h-1zM34 13h1v1h-1zM37 13h1v1h-1zM5 14h2v1h-2zM8 14h1v1h-1zM11 14h2v1h-2zM19 14h1v1h-1zM23 14h2v1h-2zM26 14h2v1h-2zM29 14h2v1h-2zM32 14h1v1h-1zM34 14h2v1h-2zM37 14h1v1h-1zM39 14h1v1h-1zM4 15h3v1h-3zM9 15h1v1h-1zM13 15h4v1h-4zM18 15h4v1h-4zM24 15h1v1h-1zM32 15h2v1h-2zM37 15h2v1h-2zM3 16h4v1h-4zM12 16h1v1h-1zM15 16h1v1h-1zM17 16h4v1h-4zM25 16h2v1h-2zM30 16h3v1h-3zM35 16h1v1h-1zM37 16h1v1h-1zM4 17h1v1h-1zM7 17h3v1h-3zM11 17h1v1h-1zM14 17h1v1h-1zM17 17h1v1h-1zM19 17h1v1h-1zM24 17h4v1h-4zM29 17h3v1h-3zM36 17h2v1h-2zM4 18h2v1h-2zM10 18h1v1h-1zM12 18h2v1h-2zM16 18h1v1h-1zM18 18h2v1h-2zM21 18h2v1h-2zM24 18h3v1h-3zM29 18h2v1h-2zM37 18h1v1h-1zM39 18h1v1h-1zM4 19h2v1h-2zM7 19h1v1h-1zM9 19h3v1h-3zM13 19h1v1h-1zM15 19h1v1h-1zM20 19h2v1h-2zM24 19h2v1h-2zM27 19h1v1h-1zM29 19h1v1h-1zM33 19h2v1h-2zM36 19h3v1h-3zM3 20h2v1h-2zM6 20h1v1h-1zM8 20h1v1h-1zM10 20h2v1h-2zM13 20h2v1h-2zM17 20h1v1h-1zM19 20h1v1h-1zM23 20h4v1h-4zM28 20h4v1h-4zM35 20h3v1h-3zM3 21h2v1h-2zM6 21h8v1h-8zM15 21h2v1h-2zM19 21h2v1h-2zM26 21h1v1h-1zM29 21h2v1h-2zM32 21h1v1h-1zM3 22h1v1h-1zM8 22h1v1h-1zM12 22h1v1h-1zM14 22h1v1h-1zM16 22h1v1h-1zM18 22h1v1h-1zM22 22h4v1h-4zM27 22h1v1h-1zM31 22h1v1h-1zM33 22h3v1h-3zM37 22h1v1h-1zM39 22h1v1h-1zM3 23h3v1h-3zM9 23h1v1h-1zM14 23h1v1h-1zM18 23h1v1h-1zM20 23h1v1h-1zM22 23h1v1h-1zM24 23h4v1h-4zM33 23h1v1h-1zM37 23h1v1h-1zM3 24h2v1h-2zM6 24h1v1h-1zM8 24h1v1h-1zM10 24h2v1h-2zM13 24h4v1h-4zM18 24h5v1h-5zM26 24h1v1h-1zM28 24h3v1h-3zM35 24h1v1h-1zM38 24h1v1h-1zM5 25h1v1h-1zM8 25h4v1h-4zM15 25h1v1h-1zM17 25h1v1h-1zM22 25h2v1h-2zM25 25h7v1h-7zM33 25h1v1h-1zM37 25h2v1h-2zM3 26h4v1h-4zM8 26h1v1h-1zM10 26h1v1h-1zM13 26h1v1h-1zM15 26h1v1h-1zM17 26h1v1h-1zM20 26h2v1h-2zM24 26h3v1h-3zM29 26h1v1h-1zM31 26h4v1h-4zM37 26h2v1h-2zM3 27h1v1h-1zM9 27h1v1h-1zM12 27h3v1h-3zM17 27h1v1h-1zM19 27h1v1h-1zM23 27h4v1h-4zM30 27h5v1h-5zM36 27h4v1h-4zM3 28h1v1h-1zM6 28h1v1h-1zM10 28h2v1h-2zM14 28h2v1h-2zM21 28h1v1h-1zM23 28h2v1h-2zM26 28h1v1h-1zM28 28h4v1h-4zM35 28h1v1h-1zM5 29h1v1h-1zM7 29h1v1h-1zM9 29h1v1h-1zM13 29h2v1h-2zM19 29h1v1h-1zM21 29h1v1h-1zM26 29h2v1h-2zM30 29h3v1h-3zM34 29h2v1h-2zM38 29h1v1h-1zM6 30h1v1h-1zM11 30h4v1h-4zM17 30h1v1h-1zM19 30h1v1h-1zM24 30h1v1h-1zM31 30h1v1h-1zM33 30h3v1h-3zM37 30h1v1h-1zM3 31h4v1h-4zM9 31h1v1h-1zM11 31h1v1h-1zM13 31h2v1h-2zM16 31h1v1h-1zM19 31h1v1h-1zM24 31h2v1h-2zM27 31h1v1h-1zM31 31h5v1h-5zM37 31h3v1h-3zM11 32h3v1h-3zM15 32h3v1h-3zM19 32h2v1h-2zM22 32h1v1h-1zM26 32h1v1h-1zM29 32h1v1h-1zM31 32h1v1h-1zM35 32h2v1h-2zM3 33h7v1h-7zM12 33h1v1h-1zM14 33h1v1h-1zM16 33h2v1h-2zM19 33h4v1h-4zM24 33h3v1h-3zM28 33h2v1h-2zM31 33h1v1h-1zM33 33h1v1h-1zM35 33h3v1h-3zM3 34h1v1h-1zM9 34h1v1h-1zM12 34h1v1h-1zM15 34h1v1h-1zM18 34h1v1h-1zM22 34h6v1h-6zM29 34h1v1h-1zM31 34h1v1h-1zM35 34h1v1h-1zM37 34h1v1h-1zM39 34h1v1h-1zM3 35h1v1h-1zM5 35h3v1h-3zM9 35h1v1h-1zM11 35h1v1h-1zM14 35h1v1h-1zM18 35h1v1h-1zM20 35h1v1h-1zM23 35h1v1h-1zM26 35h2v1h-2zM31 35h9v1h-9zM3 36h1v1h-1zM5 36h3v1h-3zM9 36h1v1h-1zM12 36h1v1h-1zM17 36h2v1h-2zM22 36h1v1h-1zM24 36h1v1h-1zM26 36h3v1h-3zM30 36h2v1h-2zM33 36h1v1h-1zM36 36h1v1h-1zM38 36h1v1h-1zM3 37h1v1h-1zM5 37h3v1h-3zM9 37h1v1h-1zM13 37h2v1h-2zM17 37h1v1h-1zM22 37h1v1h-1zM24 37h4v1h-4zM33 37h2v1h-2zM38 37h1v1h-1zM3 38h1v1h-1zM9 38h1v1h-1zM11 38h3v1h-3zM17 38h2v1h-2zM21 38h4v1h-4zM27 38h1v1h-1zM29 38h2v1h-2zM33 38h1v1h-1zM37 38h2v1h-2zM3 39h7v1h-7zM15 39h3v1h-3zM19 39h1v1h-1zM21 39h1v1h-1zM23 39h5v1h-5zM30 39h1v1h-1zM34 39h2v1h-2zM37 39h3v1h-3z" fill="#000000"></path></svg>
+        <a class="qr-link" href="https://play.google.com/store/apps/details?id=com.buggo.app" target="_blank" rel="noopener" data-anim="pulo" style="--d:.70s">
+          <svg class="qr" viewBox="0 0 43 43" role="img" aria-label="QR code para baixar o Buggo na Play Store" shape-rendering="crispEdges"><rect width="43" height="43" fill="#ffffff"></rect><path d="M3 3h7v1h-7zM12 3h3v1h-3zM17 3h1v1h-1zM19 3h1v1h-1zM21 3h1v1h-1zM23 3h4v1h-4zM28 3h4v1h-4zM33 3h7v1h-7zM3 4h1v1h-1zM9 4h1v1h-1zM12 4h2v1h-2zM21 4h3v1h-3zM28 4h1v1h-1zM31 4h1v1h-1zM33 4h1v1h-1zM39 4h1v1h-1zM3 5h1v1h-1zM5 5h3v1h-3zM9 5h1v1h-1zM11 5h6v1h-6zM18 5h3v1h-3zM24 5h1v1h-1zM26 5h1v1h-1zM29 5h1v1h-1zM33 5h1v1h-1zM35 5h3v1h-3zM39 5h1v1h-1zM3 6h1v1h-1zM5 6h3v1h-3zM9 6h1v1h-1zM12 6h2v1h-2zM15 6h1v1h-1zM17 6h2v1h-2zM22 6h1v1h-1zM25 6h5v1h-5zM31 6h1v1h-1zM33 6h1v1h-1zM35 6h3v1h-3zM39 6h1v1h-1zM3 7h1v1h-1zM5 7h3v1h-3zM9 7h1v1h-1zM11 7h4v1h-4zM16 7h2v1h-2zM24 7h1v1h-1zM26 7h1v1h-1zM28 7h1v1h-1zM30 7h1v1h-1zM33 7h1v1h-1zM35 7h3v1h-3zM39 7h1v1h-1zM3 8h1v1h-1zM9 8h1v1h-1zM11 8h2v1h-2zM15 8h2v1h-2zM20 8h6v1h-6zM27 8h1v1h-1zM31 8h1v1h-1zM33 8h1v1h-1zM39 8h1v1h-1zM3 9h7v1h-7zM11 9h1v1h-1zM13 9h1v1h-1zM15 9h1v1h-1zM17 9h1v1h-1zM19 9h1v1h-1zM21 9h1v1h-1zM23 9h1v1h-1zM25 9h1v1h-1zM27 9h1v1h-1zM29 9h1v1h-1zM31 9h1v1h-1zM33 9h7v1h-7zM13 10h1v1h-1zM16 10h2v1h-2zM19 10h4v1h-4zM24 10h1v1h-1zM26 10h2v1h-2zM29 10h1v1h-1zM4 11h1v1h-1zM7 11h1v1h-1zM9 11h1v1h-1zM11 11h3v1h-3zM15 11h3v1h-3zM19 11h1v1h-1zM21 11h7v1h-7zM30 11h1v1h-1zM32 11h1v1h-1zM34 11h2v1h-2zM37 11h1v1h-1zM5 12h2v1h-2zM8 12h1v1h-1zM11 12h1v1h-1zM13 12h1v1h-1zM16 12h3v1h-3zM20 12h1v1h-1zM23 12h1v1h-1zM25 12h2v1h-2zM29 12h3v1h-3zM34 12h4v1h-4zM3 13h1v1h-1zM6 13h2v1h-2zM9 13h1v1h-1zM12 13h2v1h-2zM15 13h1v1h-1zM17 13h2v1h-2zM21 13h2v1h-2zM25 13h2v1h-2zM28 13h3v1h-3zM32 13h1v1h-1zM34 13h1v1h-1zM37 13h1v1h-1zM5 14h2v1h-2zM8 14h1v1h-1zM11 14h2v1h-2zM19 14h1v1h-1zM23 14h2v1h-2zM26 14h2v1h-2zM29 14h2v1h-2zM32 14h1v1h-1zM34 14h2v1h-2zM37 14h1v1h-1zM39 14h1v1h-1zM4 15h3v1h-3zM9 15h1v1h-1zM13 15h4v1h-4zM18 15h4v1h-4zM24 15h1v1h-1zM32 15h2v1h-2zM37 15h2v1h-2zM3 16h4v1h-4zM12 16h1v1h-1zM15 16h1v1h-1zM17 16h4v1h-4zM25 16h2v1h-2zM30 16h3v1h-3zM35 16h1v1h-1zM37 16h1v1h-1zM4 17h1v1h-1zM7 17h3v1h-3zM11 17h1v1h-1zM14 17h1v1h-1zM17 17h1v1h-1zM19 17h1v1h-1zM24 17h4v1h-4zM29 17h3v1h-3zM36 17h2v1h-2zM4 18h2v1h-2zM10 18h1v1h-1zM12 18h2v1h-2zM16 18h1v1h-1zM18 18h2v1h-2zM21 18h2v1h-2zM24 18h3v1h-3zM29 18h2v1h-2zM37 18h1v1h-1zM39 18h1v1h-1zM4 19h2v1h-2zM7 19h1v1h-1zM9 19h3v1h-3zM13 19h1v1h-1zM15 19h1v1h-1zM20 19h2v1h-2zM24 19h2v1h-2zM27 19h1v1h-1zM29 19h1v1h-1zM33 19h2v1h-2zM36 19h3v1h-3zM3 20h2v1h-2zM6 20h1v1h-1zM8 20h1v1h-1zM10 20h2v1h-2zM13 20h2v1h-2zM17 20h1v1h-1zM19 20h1v1h-1zM23 20h4v1h-4zM28 20h4v1h-4zM35 20h3v1h-3zM3 21h2v1h-2zM6 21h8v1h-8zM15 21h2v1h-2zM19 21h2v1h-2zM26 21h1v1h-1zM29 21h2v1h-2zM32 21h1v1h-1zM3 22h1v1h-1zM8 22h1v1h-1zM12 22h1v1h-1zM14 22h1v1h-1zM16 22h1v1h-1zM18 22h1v1h-1zM22 22h4v1h-4zM27 22h1v1h-1zM31 22h1v1h-1zM33 22h3v1h-3zM37 22h1v1h-1zM39 22h1v1h-1zM3 23h3v1h-3zM9 23h1v1h-1zM14 23h1v1h-1zM18 23h1v1h-1zM20 23h1v1h-1zM22 23h1v1h-1zM24 23h4v1h-4zM33 23h1v1h-1zM37 23h1v1h-1zM3 24h2v1h-2zM6 24h1v1h-1zM8 24h1v1h-1zM10 24h2v1h-2zM13 24h4v1h-4zM18 24h5v1h-5zM26 24h1v1h-1zM28 24h3v1h-3zM35 24h1v1h-1zM38 24h1v1h-1zM5 25h1v1h-1zM8 25h4v1h-4zM15 25h1v1h-1zM17 25h1v1h-1zM22 25h2v1h-2zM25 25h7v1h-7zM33 25h1v1h-1zM37 25h2v1h-2zM3 26h4v1h-4zM8 26h1v1h-1zM10 26h1v1h-1zM13 26h1v1h-1zM15 26h1v1h-1zM17 26h1v1h-1zM20 26h2v1h-2zM24 26h3v1h-3zM29 26h1v1h-1zM31 26h4v1h-4zM37 26h2v1h-2zM3 27h1v1h-1zM9 27h1v1h-1zM12 27h3v1h-3zM17 27h1v1h-1zM19 27h1v1h-1zM23 27h4v1h-4zM30 27h5v1h-5zM36 27h4v1h-4zM3 28h1v1h-1zM6 28h1v1h-1zM10 28h2v1h-2zM14 28h2v1h-2zM21 28h1v1h-1zM23 28h2v1h-2zM26 28h1v1h-1zM28 28h4v1h-4zM35 28h1v1h-1zM5 29h1v1h-1zM7 29h1v1h-1zM9 29h1v1h-1zM13 29h2v1h-2zM19 29h1v1h-1zM21 29h1v1h-1zM26 29h2v1h-2zM30 29h3v1h-3zM34 29h2v1h-2zM38 29h1v1h-1zM6 30h1v1h-1zM11 30h4v1h-4zM17 30h1v1h-1zM19 30h1v1h-1zM24 30h1v1h-1zM31 30h1v1h-1zM33 30h3v1h-3zM37 30h1v1h-1zM3 31h4v1h-4zM9 31h1v1h-1zM11 31h1v1h-1zM13 31h2v1h-2zM16 31h1v1h-1zM19 31h1v1h-1zM24 31h2v1h-2zM27 31h1v1h-1zM31 31h5v1h-5zM37 31h3v1h-3zM11 32h3v1h-3zM15 32h3v1h-3zM19 32h2v1h-2zM22 32h1v1h-1zM26 32h1v1h-1zM29 32h1v1h-1zM31 32h1v1h-1zM35 32h2v1h-2zM3 33h7v1h-7zM12 33h1v1h-1zM14 33h1v1h-1zM16 33h2v1h-2zM19 33h4v1h-4zM24 33h3v1h-3zM28 33h2v1h-2zM31 33h1v1h-1zM33 33h1v1h-1zM35 33h3v1h-3zM3 34h1v1h-1zM9 34h1v1h-1zM12 34h1v1h-1zM15 34h1v1h-1zM18 34h1v1h-1zM22 34h6v1h-6zM29 34h1v1h-1zM31 34h1v1h-1zM35 34h1v1h-1zM37 34h1v1h-1zM39 34h1v1h-1zM3 35h1v1h-1zM5 35h3v1h-3zM9 35h1v1h-1zM11 35h1v1h-1zM14 35h1v1h-1zM18 35h1v1h-1zM20 35h1v1h-1zM23 35h1v1h-1zM26 35h2v1h-2zM31 35h9v1h-9zM3 36h1v1h-1zM5 36h3v1h-3zM9 36h1v1h-1zM12 36h1v1h-1zM17 36h2v1h-2zM22 36h1v1h-1zM24 36h1v1h-1zM26 36h3v1h-3zM30 36h2v1h-2zM33 36h1v1h-1zM36 36h1v1h-1zM38 36h1v1h-1zM3 37h1v1h-1zM5 37h3v1h-3zM9 37h1v1h-1zM13 37h2v1h-2zM17 37h1v1h-1zM22 37h1v1h-1zM24 37h4v1h-4zM33 37h2v1h-2zM38 37h1v1h-1zM3 38h1v1h-1zM9 38h1v1h-1zM11 38h3v1h-3zM17 38h2v1h-2zM21 38h4v1h-4zM27 38h1v1h-1zM29 38h2v1h-2zM33 38h1v1h-1zM37 38h2v1h-2zM3 39h7v1h-7zM15 39h3v1h-3zM19 39h1v1h-1zM21 39h1v1h-1zM23 39h5v1h-5zM30 39h1v1h-1zM34 39h2v1h-2zM37 39h3v1h-3z" fill="#000000"></path></svg>
           <span>Baixar na Play Store</span>
         </a>
       </div>
@@ -666,7 +689,7 @@ kbd{
 
 <div id="controles">
   <button id="btn-anterior" type="button" aria-label="Slide anterior"><svg viewBox="0 0 24 24"><path d="M15 5 8 12l7 7"></path></svg></button>
-  <span id="contador">01 / 17</span>
+  <span id="contador">01 / 16</span>
   <button id="btn-proximo" type="button" aria-label="Próximo slide"><svg viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"></path></svg></button>
   <button id="btn-grade" type="button" aria-label="Ver todos os slides"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"></rect><rect x="14" y="3" width="7" height="7" rx="1"></rect><rect x="3" y="14" width="7" height="7" rx="1"></rect><rect x="14" y="14" width="7" height="7" rx="1"></rect></svg></button>
   <button id="btn-tela" type="button" aria-label="Tela cheia"><svg viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"></path></svg></button>
@@ -689,6 +712,7 @@ kbd{
       <dt><kbd>B</kbd></dt><dd>Apagar a tela (fica preta)</dd>
       <dt><kbd>M</kbd></dt><dd>Som do vídeo (começa sem som)</dd>
       <dt><kbd>T</kbd></dt><dd>Cronômetro · <kbd>R</kbd> zera</dd>
+      <dt><kbd>?</kbd></dt><dd>Esta lista de atalhos</dd>
       <dt><kbd>Esc</kbd></dt><dd>Fecha o que estiver aberto</dd>
     </dl>
   </div>
