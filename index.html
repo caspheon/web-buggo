@@ -102,13 +102,15 @@ body{
 @keyframes respira{from{transform:scale(1.005)}to{transform:scale(1.07)}}
 
 /* nas miniaturas e na impressão o conteúdo já nasce montado */
-.miniatura-palco .slide.is-active [data-anim]{animation-duration:.01s !important;animation-delay:0s !important}
+.miniatura-palco .slide.is-active [data-anim],
+.miniatura-palco .slide.is-active .dica{animation-duration:.01s !important;animation-delay:0s !important}
 .miniatura-palco .citacao img{animation:none !important}
 
 @media (prefers-reduced-motion:reduce){
   .slide{transition:none}
   [data-anim],.slide.is-active [data-anim]{opacity:1;animation:none !important}
   .slide.is-active .citacao img{animation:none}
+  .dica{opacity:.32;animation:none !important}
 }
 
 /* ---------- atmosferas de fundo (recriadas em CSS) ---------- */
@@ -202,7 +204,19 @@ body{
 .slide ul{list-style:none;padding:0}
 .acento{color:var(--lavanda)}
 
-/* ---------- 1. capa ---------- */
+/* ---------- 1. abertura: a tela fica preta até você começar ---------- */
+.bg-preta{background-image:none;background-color:#000}
+.abertura{height:100%;display:grid;align-content:end;justify-items:center;padding-bottom:104px}
+.dica{
+  opacity:0;
+  font-family:var(--texto);font-size:21px;font-weight:400;
+  letter-spacing:.15em;text-transform:uppercase;color:var(--lavanda);
+}
+/* só aparece depois de um tempo parado, para não competir com a tela preta */
+.slide.is-active .dica{animation:dica 1.2s ease 2.4s both}
+@keyframes dica{from{opacity:0}to{opacity:.32}}
+
+/* ---------- 2. capa ---------- */
 .capa{height:100%;display:grid;grid-template-columns:1fr 1fr;align-items:center}
 .capa-texto{padding-left:150px}
 .capa h1{
@@ -225,7 +239,7 @@ body{
 }
 .celular img,.celular video{display:block;width:100%;height:auto;border-radius:33px;background:#07060c}
 
-/* ---------- 2 a 5. problemas ---------- */
+/* ---------- 3 a 6. problemas ---------- */
 .problema{height:100%;display:grid;place-items:center;padding:0 300px 60px}
 .problema p{
   font-family:var(--display);font-weight:900;font-size:78px;line-height:1.18;
@@ -233,7 +247,7 @@ body{
 }
 .problema .acento{display:block}
 
-/* ---------- 6, 9, 14. citações com foto ---------- */
+/* ---------- 7, 10, 15. citações com foto ---------- */
 .citacao{height:100%;display:grid;grid-template-columns:46% 54%;align-items:center}
 .citacao figure{margin:0;height:100%;overflow:hidden;position:relative}
 .citacao img{display:block;width:100%;height:100%;object-fit:cover}
@@ -248,17 +262,17 @@ body{
   text-align:center;text-wrap:balance;color:var(--branco);
 }
 
-/* ---------- 7. a descoberta ---------- */
+/* ---------- 8. a descoberta ---------- */
 .revelacao{height:100%;display:grid;place-content:center;justify-items:center;gap:26px;padding-bottom:70px}
 .revelacao .um{font-family:var(--display);font-weight:900;font-size:118px;line-height:1;color:var(--branco)}
 .revelacao .dois{font-family:var(--display);font-weight:900;font-size:136px;line-height:1;letter-spacing:-.02em;color:var(--lavanda)}
 
-/* ---------- 8. duolingo ---------- */
+/* ---------- 9. duolingo ---------- */
 .duo{height:100%;display:grid;place-content:center;justify-items:center;gap:56px;padding:0 260px}
 .duo h2{font-family:var(--display);font-weight:900;font-size:132px;line-height:1;letter-spacing:-.03em;color:var(--lavanda)}
 .duo p{font-family:var(--display);font-weight:900;font-size:60px;line-height:1.2;text-align:center;text-wrap:balance;color:var(--branco)}
 
-/* ---------- 10. a solução ---------- */
+/* ---------- 11. a solução ---------- */
 .solucao{height:100%;display:grid;grid-template-columns:1fr 520px;align-items:center;gap:60px;padding:0 150px 0 130px}
 .solucao h2{
   font-family:var(--display);font-weight:900;font-size:70px;letter-spacing:-.01em;
@@ -270,7 +284,7 @@ body{
 .pilar span{font-family:var(--display);font-weight:900;font-size:48px;letter-spacing:-.01em;color:var(--branco)}
 .mascote{width:100%;height:auto;display:block;filter:drop-shadow(0 30px 70px rgba(135,51,255,.45))}
 
-/* ---------- 11. outro aplicativo ---------- */
+/* ---------- 12. outro aplicativo ---------- */
 .app{height:100%;display:grid;grid-template-columns:430px 190px 1fr;align-items:center;padding:0 150px 0 190px}
 .app .celular{width:340px}
 .conector{width:190px;height:170px;overflow:visible}
@@ -279,7 +293,7 @@ body{
   letter-spacing:-.02em;text-align:center;color:var(--branco);
 }
 
-/* ---------- 12. mercado ---------- */
+/* ---------- 13. mercado ---------- */
 .mercado{
   height:100%;display:grid;
   grid-template-columns:1fr 1.12fr;grid-template-rows:1fr auto;
@@ -298,7 +312,7 @@ body{
 .benchmark b{color:var(--branco);font-weight:700}
 .fontes{font-family:var(--texto);font-size:17px;line-height:1.4;color:var(--cinza)}
 
-/* ---------- 13. o plano ---------- */
+/* ---------- 14. o plano ---------- */
 .plano{height:100%;display:grid;place-content:center;justify-items:center;gap:84px;padding:0 170px}
 .plano h2{font-family:var(--texto);font-weight:900;font-size:118px;line-height:1;letter-spacing:-.02em;color:var(--lavanda)}
 .plano h2 small{font-family:var(--texto);font-weight:700;font-size:.34em;letter-spacing:0;color:var(--cinza-forte)}
@@ -309,7 +323,7 @@ body{
 }
 .plano li::before{content:"";width:14px;height:14px;border-radius:50%;background:var(--lavanda);transform:translateY(-9px);justify-self:center}
 
-/* ---------- 15. obrigado ---------- */
+/* ---------- 16. obrigado ---------- */
 .obrigado{height:100%;display:grid;place-content:center;justify-items:center;gap:34px;padding:40px 0 30px}
 .obrigado h2{font-family:var(--display);font-weight:900;font-size:104px;line-height:1;letter-spacing:-.03em;color:var(--branco);margin-bottom:14px}
 .obrigado a.email{font-family:var(--texto);font-size:34px;color:var(--lavanda);text-decoration:none}
@@ -410,6 +424,7 @@ kbd{
   #controles,#barra,#cronometro,#grade,#ajuda,#apagado{display:none !important}
   [data-anim]{opacity:1 !important;animation:none !important}
   .citacao img{animation:none !important}
+  .dica{display:none}          /* a primeira página do PDF sai preta e limpa */
 }
 </style>
 </head>
@@ -418,7 +433,14 @@ kbd{
 <div id="deck">
   <div id="stage">
 
-    <!-- 1 · capa -->
+    <!-- 1 · abertura em preto -->
+    <section class="slide bg-preta" data-titulo="Abertura">
+      <div class="abertura">
+        <p class="dica">Pressione → ou clique para começar</p>
+      </div>
+    </section>
+
+    <!-- 2 · capa -->
     <section class="slide bg-hero" data-titulo="Capa">
       <div class="capa">
         <div class="capa-texto">
@@ -432,35 +454,35 @@ kbd{
       </div>
     </section>
 
-    <!-- 2 · problema -->
+    <!-- 3 · problema -->
     <section class="slide bg-problema" data-titulo="YouTube">
       <div class="problema">
         <p data-anim="sobe" style="--d:.05s">Abri o YouTube era vídeo de 8 horas resolvi <span class="acento" data-anim="soco" style="--d:.80s">FECHAR!</span></p>
       </div>
     </section>
 
-    <!-- 3 · problema -->
+    <!-- 4 · problema -->
     <section class="slide bg-problema" data-titulo="Curso em inglês">
       <div class="problema">
         <p data-anim="sobe" style="--d:.05s">Tentei um curso online mas era em inglês então <span class="acento" data-anim="soco" style="--d:.80s">FECHEI!</span></p>
       </div>
     </section>
 
-    <!-- 4 · problema -->
+    <!-- 5 · problema -->
     <section class="slide bg-problema" data-titulo="Livro">
       <div class="problema">
         <p data-anim="sobe" style="--d:.05s">Abri um livro logo na página 3 e eu <span class="acento" data-anim="soco" style="--d:.80s">DESISTI!</span></p>
       </div>
     </section>
 
-    <!-- 5 · problema -->
+    <!-- 6 · problema -->
     <section class="slide bg-problema" data-titulo="Entrevista">
       <div class="problema">
         <p data-anim="sobe" style="--d:.05s">Fui até a entrevista de estágio sem saber nada e saí <span class="acento" data-anim="soco" style="--d:.80s">ENVERGONHADO!</span></p>
       </div>
     </section>
 
-    <!-- 6 · citação -->
+    <!-- 7 · citação -->
     <section class="slide bg-foto" data-titulo="Falta de caminho">
       <div class="citacao">
         <figure data-anim="surge"><img src="assets/foto-frustrado.jpg" alt="Jovem cansado diante do notebook, cercado de papéis e copos de café"></figure>
@@ -468,7 +490,7 @@ kbd{
       </div>
     </section>
 
-    <!-- 7 · a descoberta -->
+    <!-- 8 · a descoberta -->
     <section class="slide bg-revelacao" data-titulo="A Descoberta">
       <div class="revelacao">
         <span class="um" data-anim="sobe" style="--d:.10s">A</span>
@@ -476,7 +498,7 @@ kbd{
       </div>
     </section>
 
-    <!-- 8 · duolingo -->
+    <!-- 9 · duolingo -->
     <section class="slide bg-duo" data-titulo="Duolingo">
       <div class="duo">
         <h2 data-anim="foco" style="--d:.05s">Duolingo</h2>
@@ -484,7 +506,7 @@ kbd{
       </div>
     </section>
 
-    <!-- 9 · citação -->
+    <!-- 10 · citação -->
     <section class="slide bg-foto bg-foto--roxo" data-titulo="Por que não?">
       <div class="citacao">
         <figure data-anim="surge"><img src="assets/foto-descoberta.jpg" alt="Jovem surpreso olhando para o celular na sala"></figure>
@@ -492,7 +514,7 @@ kbd{
       </div>
     </section>
 
-    <!-- 10 · a solução -->
+    <!-- 11 · a solução -->
     <section class="slide bg-solucao" data-titulo="A solução: Buggo">
       <div class="solucao">
         <div>
@@ -507,7 +529,7 @@ kbd{
       </div>
     </section>
 
-    <!-- 11 · outro aplicativo -->
+    <!-- 12 · outro aplicativo -->
     <section class="slide bg-app" data-titulo="Outro aplicativo">
       <div class="app">
         <div class="celular" data-anim="sobe" style="--d:.05s">
@@ -523,7 +545,7 @@ kbd{
       </div>
     </section>
 
-    <!-- 12 · mercado -->
+    <!-- 13 · mercado -->
     <section class="slide bg-mercado" data-titulo="Mercado">
       <div class="mercado">
         <div class="numeros">
@@ -584,7 +606,7 @@ kbd{
       </div>
     </section>
 
-    <!-- 13 · o plano -->
+    <!-- 14 · o plano -->
     <section class="slide bg-preco" data-titulo="R$ 19,90">
       <div class="plano">
         <h2 data-anim="foco" style="--d:.05s">R$ 19,90<small>/mês</small></h2>
@@ -599,7 +621,7 @@ kbd{
       </div>
     </section>
 
-    <!-- 14 · citação final -->
+    <!-- 15 · citação final -->
     <section class="slide bg-foto bg-foto--magenta" data-titulo="Se eu consegui">
       <div class="citacao">
         <figure data-anim="surge"><img src="assets/foto-certificado.jpg" alt="Jovem sorrindo e apontando para o certificado de conclusão de programador"></figure>
@@ -607,7 +629,7 @@ kbd{
       </div>
     </section>
 
-    <!-- 15 · obrigado -->
+    <!-- 16 · obrigado -->
     <section class="slide bg-obrigado" data-titulo="Obrigado">
       <div class="obrigado">
         <h2 data-anim="foco" style="--d:.05s">Obrigado</h2>

@@ -1,6 +1,6 @@
 # Buggo — deck de apresentação
 
-Versão web do `buggo_pitch.pptx` (15 slides), feita para apresentar sem depender
+Versão web do `buggo_pitch.pptx` (16 slides), feita para apresentar sem depender
 do PowerPoint. No slide 11 o celular mostra a gravação do app rodando, que
 começa sozinha e sem som ao chegar no slide.
 
@@ -13,7 +13,9 @@ desenha. Quem tiver "reduzir movimento" ligado no sistema vê tudo estático.
 
 1. Abra `index.html` no navegador (duplo clique).
 2. Pressione **F** para tela cheia.
-3. Avance com **→** / **espaço** ou clicando na tela.
+3. A tela fica **preta** — é o slide de abertura. Deixe assim enquanto
+   apresenta o projetor e se posiciona.
+4. Avance com **→** / **espaço** ou clicando na tela: a capa entra animada.
 
 Roda offline, vídeo incluso. A única coisa que precisa de internet são as fontes
 (Poppins e Roboto — sem elas o navegador usa uma fonte parecida).
