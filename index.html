@@ -265,10 +265,14 @@ html.sem-movimento .dica{opacity:.32;animation:none !important}
   font-family:var(--display);font-weight:900;font-size:56px;line-height:1.14;
   letter-spacing:-.02em;color:var(--lavanda);
 }
-/* a logo fecha a capa. O arquivo tem 480px de largura, então 440 é o teto
-   para ela não ser esticada e borrar no projetor. */
+/* a logo fecha a capa como ícone de aplicativo: o arquivo é o quadrado cheio
+   e o canto arredondado é a máscara que a Play Store aplica por cima (a
+   squircle do Android, ~22,5% do lado). O arquivo tem 512px, então 440 não
+   estica; o object-fit segura o formato caso um dia entre um arquivo que não
+   seja quadrado. */
 .capa .mascote{
-  width:440px;height:auto;display:block;justify-self:center;
+  width:440px;height:440px;object-fit:cover;display:block;justify-self:center;
+  border-radius:22.5%;
   filter:drop-shadow(0 30px 70px rgba(135,51,255,.45));
 }
 .celulares{position:relative;height:100%}
@@ -578,7 +582,7 @@ kbd{
           <h1 data-anim="foco" style="--d:.06s">Buggo</h1>
           <p data-anim="sobe" style="--d:.34s">Aprenda a programar<br>brincando</p>
         </div>
-        <img class="mascote" data-anim="pulo" style="--d:.62s" src="assets/mascote.png" alt="Buggo, o mascote: um robô verde sobre um quadrado roxo com o símbolo &lt;/&gt;">
+        <img class="mascote" data-anim="pulo" style="--d:.62s" src="assets/mascote.png" alt="Ícone do aplicativo Buggo: o símbolo &lt;/&gt; em branco, com antenas, sobre um quadrado roxo escuro">
       </div>
     </section>
 
