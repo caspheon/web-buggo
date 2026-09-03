@@ -322,7 +322,12 @@ html.sem-movimento .dica{opacity:.32;animation:none !important}
 .pilar{display:grid;grid-template-columns:74px 1fr;align-items:center;gap:34px}
 .pilar img{width:56px;height:56px;object-fit:contain;justify-self:center}
 .pilar span{font-family:var(--display);font-weight:900;font-size:48px;letter-spacing:-.01em;color:var(--branco)}
-.mascote{width:100%;height:auto;display:block;filter:drop-shadow(0 30px 70px rgba(135,51,255,.45))}
+/* o mesmo par da capa, agora ao lado dos pilares. A coluna aqui tem 520px
+   contra os 800px da capa, então o par entra a 80% do tamanho e se recentra
+   nela — a composição (sobreposição e inclinação) é a mesma. */
+.solucao .celulares{align-self:stretch}
+.solucao .celular--tras  {width:240px;right:62px;top:234px}
+.solucao .celular--frente{width:258px;right:200px;top:152px}
 
 /* ---------- 13. outro aplicativo ---------- */
 .app{height:100%;display:grid;grid-template-columns:340px 190px 1fr;align-items:center;padding:0 150px 0 190px}
@@ -583,7 +588,10 @@ kbd{
           <li class="pilar" data-anim="sobe" style="--d:.18s"><img src="assets/ico-licoes.png" alt=""><span>Micro-lições</span></li>
           <li class="pilar" data-anim="sobe" style="--d:.30s"><img src="assets/ico-trilha.png" alt=""><span>Trilha estruturada</span></li>
         </ul>
-        <img class="mascote" data-anim="pulo" style="--d:.42s" src="assets/mascote.png" alt="Buggo, o mascote: um robô verde sobre um quadrado roxo com o símbolo &lt;/&gt;">
+        <div class="celulares">
+          <div class="celular celular--tras" data-anim="entra" style="--d:.42s"><img src="assets/tela-home-python.jpg" alt="Tela inicial do Buggo com a trilha de Python, XP e moedas"></div>
+          <div class="celular celular--frente" data-anim="entra" style="--d:.54s"><img src="assets/tela-licao.jpg" alt="Lição do Buggo: completar o código de uma função em Python"></div>
+        </div>
       </div>
     </section>
 
