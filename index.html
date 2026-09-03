@@ -265,6 +265,12 @@ html.sem-movimento .dica{opacity:.32;animation:none !important}
   font-family:var(--display);font-weight:900;font-size:56px;line-height:1.14;
   letter-spacing:-.02em;color:var(--lavanda);
 }
+/* a logo fecha a capa. O arquivo tem 480px de largura, então 440 é o teto
+   para ela não ser esticada e borrar no projetor. */
+.capa .mascote{
+  width:440px;height:auto;display:block;justify-self:center;
+  filter:drop-shadow(0 30px 70px rgba(135,51,255,.45));
+}
 .celulares{position:relative;height:100%}
 .celulares .celular{position:absolute;transform:rotate(-14deg)}
 .celulares .celular--tras{width:300px;right:78px;top:190px}
@@ -322,12 +328,11 @@ html.sem-movimento .dica{opacity:.32;animation:none !important}
 .pilar{display:grid;grid-template-columns:74px 1fr;align-items:center;gap:34px}
 .pilar img{width:56px;height:56px;object-fit:contain;justify-self:center}
 .pilar span{font-family:var(--display);font-weight:900;font-size:48px;letter-spacing:-.01em;color:var(--branco)}
-/* o mesmo par da capa, agora ao lado dos pilares. A coluna aqui tem 520px
-   contra os 800px da capa, então o par entra a 80% do tamanho e se recentra
-   nela — a composição (sobreposição e inclinação) é a mesma. */
+/* o par de celulares, em tamanho cheio, ao lado dos pilares: mesmas medidas
+   do arquivo original, só reancoradas para centrar nesta coluna de 520px. */
 .solucao .celulares{align-self:stretch}
-.solucao .celular--tras  {width:240px;right:62px;top:234px}
-.solucao .celular--frente{width:258px;right:200px;top:152px}
+.solucao .celular--tras  {width:300px;right:13px;top:178px}
+.solucao .celular--frente{width:322px;right:185px;top:76px}
 
 /* ---------- 13. outro aplicativo ---------- */
 .app{height:100%;display:grid;grid-template-columns:340px 190px 1fr;align-items:center;padding:0 150px 0 190px}
@@ -573,10 +578,7 @@ kbd{
           <h1 data-anim="foco" style="--d:.06s">Buggo</h1>
           <p data-anim="sobe" style="--d:.34s">Aprenda a programar<br>brincando</p>
         </div>
-        <div class="celulares">
-          <div class="celular celular--tras" data-anim="entra" style="--d:.62s"><img src="assets/tela-home-python.jpg" alt="Tela inicial do Buggo com a trilha de Python, XP e moedas"></div>
-          <div class="celular celular--frente" data-anim="entra" style="--d:.74s"><img src="assets/tela-licao.jpg" alt="Lição do Buggo: completar o código de uma função em Python"></div>
-        </div>
+        <img class="mascote" data-anim="pulo" style="--d:.62s" src="assets/mascote.png" alt="Buggo, o mascote: um robô verde sobre um quadrado roxo com o símbolo &lt;/&gt;">
       </div>
     </section>
 
